@@ -59,7 +59,8 @@ def neural_network(inputs, weights):
        out - a 1 x 1 NumPy array, representing the output of the neural network
     """
     #Your code here
-    raise NotImplementedError
+    out = np.tanh(np.matmul(weights.transpose(), inputs))
+    return out
 
 def scalar_function(x, y):
     """
@@ -103,3 +104,14 @@ print('vector  b :')
 print(b)
 print('L2 norm of a+b :')
 print(c)
+
+# call function neural_networks
+x = np.random.randint(0, 10, (2, 1))
+w = np.random.random((2, 1))
+z = neural_network(x, w)
+print('inputs as x')
+print(x)
+print('weights as w')
+print(w)
+print('output as z')
+print(z)
