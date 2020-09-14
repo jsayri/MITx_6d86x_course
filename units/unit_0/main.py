@@ -67,14 +67,20 @@ def scalar_function(x, y):
     Returns the f(x,y) defined in the problem statement.
     """
     #Your code here
-    raise NotImplementedError
+    if x < y:
+        s = x * y
+    else:
+        s = x/y
+    return s
+
 
 def vector_function(x, y):
     """
     Make sure vector_function can deal with vector input x,y
     """
     #Your code here
-    raise NotImplementedError
+    f = np.vectorize(scalar_function)
+    return f(x, y)
 
 
 # Main function call (to test results)
@@ -115,3 +121,12 @@ print('weights as w')
 print(w)
 print('output as z')
 print(z)
+
+# call scalar function
+print('result 1 scalar_function(1, 2): ', scalar_function(1, 2))
+print('result 2 scalar_function(5, 4): ', scalar_function(5, 4))
+
+# call vectorize function
+print('result 3 vector_function([1, 2, 3], [2, 7, 1]): ', vector_function([1, 2, 3], [2, 7, 1]))
+print('result 4 vector_function([1, 2, 3], [2, 7, 1]): ', vector_function(np.array([1, 2, 3]), np.array([2, 7, 1])))
+print('result 5 vector_function([7, 3, 9], 3): ', vector_function(np.array([7, 3, 9]), np.array([3])))
