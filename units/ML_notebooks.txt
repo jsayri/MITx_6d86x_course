@@ -1,0 +1,8 @@
+Jupyter notebooks resources on Machine Learning (ML)
+Watch out for missing packages at the current environment
+
+https://nbviewer.jupyter.org/github/Varal7/ml-tutorial/blob/master/Part1.ipynb
+https://nbviewer.jupyter.org/github/Varal7/ml-tutorial/blob/master/Part2.ipynb
+
+Udacity tutorial on git & github
+https://classroom.udacity.com/courses/ud775
