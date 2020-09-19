@@ -4,11 +4,11 @@ import numpy as np
 
 def perceptron_disp(x, y, T=5):
     '''
-    Display the iteretions within the perceptron algorithm
+    Execute a version of the perceptron algorithm for the section 1 Perceptron Mistakes from homework1
     Inputs
     x :     list, vector 2xm with point, i.e. x = [[1,1], [2,1], [-1,4]]^T
     y :     list, label vector with the outputs for each x, i.e. y = [1, -1, 1]
-    T :     integer, number of repetions for the algorithm, default 5
+    T :     integer, number of repetitions for the algorithm, default 5
     '''
 
     th = np.zeros((1, x.shape[1]))    # initial theta
