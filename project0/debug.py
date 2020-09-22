@@ -1,12 +1,16 @@
+def make_default_metric(i):
+    return lambda x: x + i
+
+
 def get_sum_metrics(predictions, metrics=[]):
     for i in range(3):
-        metrics.append(lambda x: x + i)
-
-    breakpoint()
+        metrics.append(make_default_metric(i))
 
     sum_metrics = 0
     for metric in metrics:
         sum_metrics += metric(predictions)
+
+    metrics.clear()
 
     return sum_metrics
 
