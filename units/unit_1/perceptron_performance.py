@@ -18,6 +18,7 @@ def perceptron_perf(x, y, T=5, nm_max = 100):
     th_list = []                    # theta list of updates
     nm = 0                          # number of mistakes counter
     for t in range(T):
+        if nm == nm_max: break
         # print('iteration', t)
         for i in range(x.shape[0]):
             # print('vector i =', i)
@@ -25,17 +26,22 @@ def perceptron_perf(x, y, T=5, nm_max = 100):
             yi = y[i]
 
             if (yi * (np.dot(th, xi) + th_0)) <= 0:
+                # check number of mistakes counter
+                if nm >= nm_max:
+                    break
+
                 th = th + yi * xi
                 th_0 = th_0 + yi
                 th_list.append(th.tolist()[0])
 
-                # check number of mistakes counter
-                if nm <= nm_max: nm += 1;
-                else: break
-        if nm == nm_max: break
+                # mistake counter
+                nm += 1
+
+
+
 
     print('number of mistakes = ', len(th_list))
-    return th, th_list
+    return th, th_0, th_list
 
 
 if __name__ == '__main__':
@@ -45,8 +51,22 @@ if __name__ == '__main__':
     x = np.array([[-4, 2], [-2, 1], [-1, -1], [2, 2], [1, -2]])
     y = np.array([1, 1, -1, -1, -1])
 
-    th, th_list = perceptron_perf(x, y, 5, 4)
+    # th, th_0, th_list = perceptron_perf(x, y, 10)
+    # print('result for theta', th)
+    # print('result for theta_0', th_0)
+    # print('variation of theta over iterations')
+    # print(th_list)
+
+    print()
+
+
+    # data set for problem 3b-4
+    x = np.array([[-1, 1], [1, -1], [1, 1], [2, 2]])
+    y = np.array([1, 1, -1, -1])
+
+    th, th_0, th_list = perceptron_perf(x, y, 4, 5)
     print('result for theta', th)
+    print('result for theta_0', th_0)
     print('variation of theta over iterations')
     print(th_list)
 
