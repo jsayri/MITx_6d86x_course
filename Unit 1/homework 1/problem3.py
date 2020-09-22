@@ -52,14 +52,13 @@ def converge(item_list):
 
 
 def error(item, cfr):
-    agreement = np.dot(item.x, cfr.theta)*item.y + item.y*cfr.theta_0
+    agreement = np.dot(item.x, cfr.theta) * item.y + item.y * cfr.theta_0
     return agreement <= 0
 
 
-item_list = [TrainingItem(x=np.array([-4, 2]),  y=1),
-             TrainingItem(x=np.array([-2, 1]),    y=1),
-             TrainingItem(x=np.array([-1, -1]), y=-1),
-             TrainingItem(x=np.array([2, 2]), y=-1),
-             TrainingItem(x=np.array([1, -2]), y=-1)]
+item_list = [TrainingItem(x=np.array([-1, 1]), y=1),
+             TrainingItem(x=np.array([1, -1]), y=1),
+             TrainingItem(x=np.array([1, 1]), y=-1),
+             TrainingItem(x=np.array([2, 2]), y=-1)]
 
 converge(item_list)
