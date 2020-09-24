@@ -313,7 +313,9 @@ def classify(feature_matrix, theta, theta_0):
     be considered a positive classification.
     """
     # Your code here
-    raise NotImplementedError
+    isZero = 10 ** -10  # epsilon number
+    labels = np.array([1 if (np.dot(xi, theta) + theta_0) > isZero else -1 for xi in feature_matrix])
+    return labels
 #pragma: coderesponse end
 
 
