@@ -337,7 +337,7 @@ def classifier_accuracy(
             (feature matrix, labels, **kwargs) and returns (theta, theta_0)
         train_feature_matrix - A numpy matrix describing the training
             data. Each row represents a single data point.
-        val_feature_matrix - A numpy matrix describing the training
+        val_feature_matrix - A numpy matrix describing the validation
             data. Each row represents a single data point.
         train_labels - A numpy array where the kth element of the array
             is the correct classification of the kth row of the training
