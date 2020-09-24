@@ -24,23 +24,23 @@ test_bow_features = p1.extract_bow_feature_vectors(test_texts, dictionary)
 # Problem 5
 #-------------------------------------------------------------------------------
 
-# toy_features, toy_labels = toy_data = utils.load_toy_data('toy_data.tsv')
-#
-# T = 10
-# L = 0.2
-#
-# thetas_perceptron = p1.perceptron(toy_features, toy_labels, T)
-# thetas_avg_perceptron = p1.average_perceptron(toy_features, toy_labels, T)
-# thetas_pegasos = p1.pegasos(toy_features, toy_labels, T, L)
-#
-# def plot_toy_results(algo_name, thetas):
-#     print('theta for', algo_name, 'is', ', '.join(map(str,list(thetas[0]))))
-#     print('theta_0 for', algo_name, 'is', str(thetas[1]))
-#     utils.plot_toy_data(algo_name, toy_features, toy_labels, thetas)
-#
-# plot_toy_results('Perceptron', thetas_perceptron)
-# plot_toy_results('Average Perceptron', thetas_avg_perceptron)
-# plot_toy_results('Pegasos', thetas_pegasos)
+toy_features, toy_labels = toy_data = utils.load_toy_data('toy_data.tsv')
+
+T = 10
+L = 0.2
+
+thetas_perceptron = p1.perceptron(toy_features, toy_labels, T)
+thetas_avg_perceptron = p1.average_perceptron(toy_features, toy_labels, T)
+thetas_pegasos = p1.pegasos(toy_features, toy_labels, T, L)
+
+def plot_toy_results(algo_name, thetas):
+    print('theta for', algo_name, 'is', ', '.join(map(str,list(thetas[0]))))
+    print('theta_0 for', algo_name, 'is', str(thetas[1]))
+    utils.plot_toy_data(algo_name, toy_features, toy_labels, thetas)
+
+plot_toy_results('Perceptron', thetas_perceptron)
+plot_toy_results('Average Perceptron', thetas_avg_perceptron)
+plot_toy_results('Pegasos', thetas_pegasos)
 
 #-------------------------------------------------------------------------------
 # Problem 7
@@ -110,7 +110,7 @@ test_bow_features = p1.extract_bow_feature_vectors(test_texts, dictionary)
 feature_vector = np.array([1, 2])
 label, theta, theta_0 = 1, np.array([-1, 1]), -0.2
 hloss = p1.hinge_loss_single(feature_vector, label, theta, theta_0)
-print (hloss)
+#print (hloss)
 
 # --- Test pegasus single step ---
 # Test when theta and theta_0 == 0
