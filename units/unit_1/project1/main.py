@@ -112,6 +112,31 @@ label, theta, theta_0 = 1, np.array([-1, 1]), -0.2
 hloss = p1.hinge_loss_single(feature_vector, label, theta, theta_0)
 print (hloss)
 
+# --- Test pegasus single step ---
+# Test when theta and theta_0 == 0
+feature_vector = np.array([-0.26475382, -0.26902969, -0.04276542, -0.1188501, 0.3125307, 0.3105614,\
+                            0.29610234, 0.47825941, 0.20519536, 0.21865269])
+label = -1
+L = 0.7221618485058139
+eta = 0.005519419625906408
+theta = np.array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])
+theta_0 = 0
+
+p1.pegasos_single_step_update(feature_vector, label, L, eta, theta, theta_0)
+
+# Test for prediction * label > 1
+feature_vector = np.array([-0.36194338, 0.44975533, 0.02675913, -0.22315544, -0.26165029, 0.27728528, \
+                            0.02749936, 0.39743416, -0.28536653, 0.04857445])
+label = -1
+L = 0.2821908705614756
+eta = 0.5535321581004718
+theta = np.array([-0.36148429, 0.33757187, 0.04933931, -0.28961002, -0.26722188, -0.14899803, \
+                   0.0021666, 0.29798112, 0.29783438, 0.04404272])
+theta_0 = -2.0174911915381766
+
+p1.pegasos_single_step_update(feature_vector, label, L, eta, theta, theta_0)
+
+
 #-------------------------------------------------------------------------------
 # Assign to best_theta, the weights (and not the bias!) learned by your most
 # accurate algorithm with the optimal choice of hyperparameters.

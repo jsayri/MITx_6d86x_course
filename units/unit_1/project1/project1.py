@@ -101,7 +101,14 @@ def perceptron_single_step_update(
     completed.
     """
     # Your code here
-    raise NotImplementedError
+    isZero = 10**-10  # epsilon number
+    if (label * (np.dot(feature_vector, current_theta) + current_theta_0)) <= isZero:
+        new_theta = current_theta + label * feature_vector
+        new_theta_0 = current_theta_0 + label
+    else:
+        new_theta = current_theta
+        new_theta_0 = current_theta_0
+    return (new_theta, new_theta_0)
 #pragma: coderesponse end
 
 
@@ -132,11 +139,18 @@ def perceptron(feature_matrix, labels, T):
     the feature matrix.
     """
     # Your code here
+    theta = np.zeros(feature_matrix.shape[1])
+    theta_0 = 0
     for t in range(T):
         for i in get_order(feature_matrix.shape[0]):
             # Your code here
-            pass
-    raise NotImplementedError
+            feature_vector = feature_matrix[i, :]
+            label = labels[i]
+            sol_i = perceptron_single_step_update(feature_vector, label, theta, theta_0)
+            theta = sol_i[0]
+            theta_0 = sol_i[1]
+
+    return (theta, theta_0)
 #pragma: coderesponse end
 
 
@@ -171,7 +185,24 @@ def average_perceptron(feature_matrix, labels, T):
     find a sum and divide.
     """
     # Your code here
-    raise NotImplementedError
+    theta = np.zeros(feature_matrix.shape[1])
+    theta_0 = 0
+    sum_theta = theta
+    sum_theta_0 = theta_0
+    for t in range(T):
+        for i in get_order(feature_matrix.shape[0]):
+            # Your code here
+            feature_vector = feature_matrix[i, :]
+            label = labels[i]
+            sol_i = perceptron_single_step_update(feature_vector, label, theta, theta_0)
+            theta = sol_i[0]
+            theta_0 = sol_i[1]
+            # track changes for average results
+            sum_theta += theta
+            sum_theta_0 += theta_0
+    avg_theta = sum_theta / (T * feature_matrix.shape[0])
+    avg_theta_0 = sum_theta_0 / (T * feature_matrix.shape[0])
+    return (avg_theta, avg_theta_0)
 #pragma: coderesponse end
 
 
@@ -203,7 +234,13 @@ def pegasos_single_step_update(
     completed.
     """
     # Your code here
-    raise NotImplementedError
+    if (label * (np.dot(feature_vector, current_theta) + current_theta_0)) <= 1.0:
+        new_theta = (1 - eta * L) * current_theta + eta * label * feature_vector
+        new_theta_0 = current_theta_0 + eta * label
+    else:
+        new_theta = (1 - eta * L) * current_theta
+        new_theta_0 = current_theta_0
+    return (new_theta, new_theta_0)
 #pragma: coderesponse end
 
 
@@ -238,7 +275,20 @@ def pegasos(feature_matrix, labels, T, L):
     parameter, found after T iterations through the feature matrix.
     """
     # Your code here
-    raise NotImplementedError
+    theta = np.zeros(feature_matrix.shape[1])
+    theta_0 = 0
+    counter = 0
+    for t in range(T):
+        for i in get_order(feature_matrix.shape[0]):
+            # Your code here
+            feature_vector = feature_matrix[i, :]
+            label = labels[i]
+            counter += 1 # update counter
+            eta = 1 / np.sqrt(counter) # update learning rate 'eta'
+            sol_i = pegasos_single_step_update(feature_vector, label, L, eta, theta, theta_0)
+            theta, theta_0 = sol_i[0], sol_i[1]
+
+    return (theta, theta_0)
 #pragma: coderesponse end
 
 # Part II
