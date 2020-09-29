@@ -1,12 +1,6 @@
 import numpy as np
 
 
-# class TrainingItem:
-#     def __init__(self, x, y):
-#         self.x = x
-#         self.y = y
-
-
 class TrainingItem:
     @staticmethod
     def get_training_items(d):
@@ -18,7 +12,7 @@ class TrainingItem:
         return 0
 
     def __init__(self, t, d):
-        self.y = 1
+        self.y = np.random.choice([-1, 1])
         self.t = t
 
         dimensions = range(1, d + 1)
@@ -62,9 +56,6 @@ def converge(item_list):
 
                 print(f'Mistake {mistakes_found} found at X_{index + 1}: new classifier: {cfr}')
 
-                # if mistakes_found == 4:
-                #     continue_loop = False
-                #     break
             else:
                 if changed_index == index:
                     converged = True
@@ -82,6 +73,8 @@ def error(item, cfr):
     return agreement <= 0
 
 
-item_list = TrainingItem.get_training_items(2)
+item_list = TrainingItem.get_training_items(3)
+for item in item_list:
+    print(item)
 
 converge(item_list)
