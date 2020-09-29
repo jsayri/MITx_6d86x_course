@@ -142,10 +142,14 @@ def perceptron(feature_matrix, labels, T):
     the feature matrix.
     """
     # Your code here
+    theta_0 = 0
+    theta = np.zeros(feature_matrix[0].shape)
+
     for t in range(T):
         for i in get_order(feature_matrix.shape[0]):
-            # Your code here
-            pass
+            theta, theta_0 = perceptron_single_step_update(feature_matrix[i], labels[i], theta, theta_0)
+
+    return theta, theta_0
     raise NotImplementedError
 #pragma: coderesponse end
 
