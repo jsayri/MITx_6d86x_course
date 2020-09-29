@@ -36,7 +36,12 @@ def hinge_loss_single(feature_vector, label, theta, theta_0):
     Returns: A real number representing the hinge loss associated with the
     given data point and parameters.
     """
-    # Your code here
+    agreement = np.dot(feature_vector, theta) * label + label * theta_0
+
+    if agreement >= 1:
+        return 0
+
+    return 1 - agreement
     raise NotImplementedError
 #pragma: coderesponse end
 
@@ -60,7 +65,9 @@ def hinge_loss_full(feature_matrix, labels, theta, theta_0):
     given dataset and parameters. This number should be the average hinge
     loss across all of the points in the feature matrix.
     """
-    # Your code here
+    hinge_losses = [hinge_loss_single(feature_vector, label, theta, theta_0)
+                    for feature_vector, label in zip(feature_matrix, labels)]
+    return sum(hinge_losses)/len(hinge_losses)
     raise NotImplementedError
 #pragma: coderesponse end
 
