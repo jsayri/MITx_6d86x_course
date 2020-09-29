@@ -12,7 +12,8 @@ class TrainingItem:
         return 0
 
     def __init__(self, t, d):
-        self.y = np.random.choice([-1, 1])
+        # self.y = np.random.choice([-1, 1])
+        self.y = 1
         self.t = t
 
         dimensions = range(1, d + 1)
