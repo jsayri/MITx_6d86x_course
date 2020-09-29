@@ -229,7 +229,16 @@ def pegasos_single_step_update(
     real valued number with the value of theta_0 after the current updated has
     completed.
     """
-    # Your code here
+    agreement = label * np.dot(current_theta, feature_vector) + label * current_theta_0
+    if agreement <= 1:
+        new_theta = (1 - eta * L) * current_theta + \
+                    eta * label * feature_vector
+        new_theta_0 = current_theta_0 + eta * label
+    else:
+        new_theta = (1 - eta * L) * current_theta
+        new_theta_0 = current_theta_0
+
+    return new_theta, new_theta_0
     raise NotImplementedError
 #pragma: coderesponse end
 
@@ -265,6 +274,17 @@ def pegasos(feature_matrix, labels, T, L):
     parameter, found after T iterations through the feature matrix.
     """
     # Your code here
+    theta_0 = 0
+    theta = np.zeros(feature_matrix[0].shape)
+    updates = 0
+
+    for t in range(T):
+        for i in get_order(feature_matrix.shape[0]):
+            updates += 1
+            eta = 1/np.sqrt(updates)
+            theta, theta_0 = pegasos_single_step_update(feature_matrix[i], labels[i], L, eta, theta, theta_0)
+
+    return theta, theta_0
     raise NotImplementedError
 #pragma: coderesponse end
 
