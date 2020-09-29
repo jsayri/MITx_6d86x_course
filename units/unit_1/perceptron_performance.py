@@ -51,7 +51,7 @@ if __name__ == '__main__':
     x = np.array([[-4, 2], [-2, 1], [-1, -1], [2, 2], [1, -2]])
     y = np.array([1, 1, -1, -1, -1])
 
-    th, th_0, th_list = perceptron_perf(x, y, 10)
+    th, th_0, th_list = perceptron_perf(x, y, 10, 4)
     print('result for theta', th)
     print('result for theta_0', th_0)
     print('variation of theta over iterations')
