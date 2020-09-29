@@ -36,7 +36,7 @@ def hinge_loss_single(feature_vector, label, theta, theta_0):
     Returns: A real number representing the hinge loss associated with the
     given data point and parameters.
     """
-    agreement = np.dot(feature_vector, theta) * label + label * theta_0
+    agreement = np.inner(feature_vector, theta) * label + label * theta_0
 
     if agreement >= 1:
         return 0
@@ -95,7 +95,13 @@ def perceptron_single_step_update(
     real valued number with the value of theta_0 after the current updated has
     completed.
     """
-    # Your code here
+    epsilon = 1E-6
+    hinge_loss = hinge_loss_single(feature_vector, label, current_theta, current_theta_0)
+    if abs(hinge_loss) < epsilon:
+        return current_theta, current_theta_0
+
+    return current_theta + feature_vector * label, current_theta_0 + label
+
     raise NotImplementedError
 #pragma: coderesponse end
 
