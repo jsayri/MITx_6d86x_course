@@ -390,6 +390,8 @@ def bag_of_words(texts):
 
     Feel free to change this code as guided by Problem 9
     """
+
+    stop_words = []
     with open('stopwords.txt') as stop_words_file:
         stop_words = stop_words_file.read().splitlines()
     dictionary = {} # maps word to unique index
