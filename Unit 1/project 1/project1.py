@@ -382,7 +382,6 @@ def extract_words(input_string):
     return input_string.lower().split()
 #pragma: coderesponse end
 
-
 #pragma: coderesponse template
 def bag_of_words(texts):
     """
@@ -391,13 +390,18 @@ def bag_of_words(texts):
 
     Feel free to change this code as guided by Problem 9
     """
-    # Your code here
+    with open('stopwords.txt') as stop_words_file:
+        stop_words = stop_words_file.read()
     dictionary = {} # maps word to unique index
     for text in texts:
         word_list = extract_words(text)
         for word in word_list:
             if word not in dictionary:
-                dictionary[word] = len(dictionary)
+                if word not in stop_words:
+                    dictionary[word] = len(dictionary)
+
+    print(len(dictionary))
+
     return dictionary
 #pragma: coderesponse end
 
