@@ -139,17 +139,17 @@ test_bow_features = p1.extract_bow_feature_vectors(test_texts, dictionary)
 # against the test dataset. The test data has been provided as
 # test_bow_features and test_labels.
 #-------------------------------------------------------------------------------
-#
-# print(p1.classifier_accuracy(p1.pegasos, train_bow_features, test_bow_features,
-#                              train_labels, test_labels, T=25, L=0.01))
+
+print(p1.classifier_accuracy(p1.pegasos, train_bow_features, test_bow_features,
+                             train_labels, test_labels, T=25, L=0.01))
 
 #-------------------------------------------------------------------------------
 # Assign to best_theta, the weights (and not the bias!) learned by your most
 # accurate algorithm with the optimal choice of hyperparameters.
 #-------------------------------------------------------------------------------
 #
-best_theta, best_theta_0 = p1.pegasos(train_bow_features, train_labels, T=25, L=0.01)
-wordlist   = [word for (idx, word) in sorted(zip(dictionary.values(), dictionary.keys()))]
-sorted_word_features = utils.most_explanatory_word(best_theta, wordlist)
-print("Most Explanatory Word Features")
-print(sorted_word_features[:10])
+# best_theta, best_theta_0 = p1.pegasos(train_bow_features, train_labels, T=25, L=0.01)
+# wordlist   = [word for (idx, word) in sorted(zip(dictionary.values(), dictionary.keys()))]
+# sorted_word_features = utils.most_explanatory_word(best_theta, wordlist)
+# print("Most Explanatory Word Features")
+# print(sorted_word_features[:10])
