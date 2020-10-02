@@ -391,7 +391,7 @@ def bag_of_words(texts):
     Feel free to change this code as guided by Problem 9
     """
     with open('stopwords.txt') as stop_words_file:
-        stop_words = stop_words_file.read()
+        stop_words = stop_words_file.read().splitlines()
     dictionary = {} # maps word to unique index
     for text in texts:
         word_list = extract_words(text)
@@ -399,8 +399,6 @@ def bag_of_words(texts):
             if word not in dictionary:
                 if word not in stop_words:
                     dictionary[word] = len(dictionary)
-
-    print(len(dictionary))
 
     return dictionary
 #pragma: coderesponse end
