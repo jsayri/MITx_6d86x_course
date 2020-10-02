@@ -179,6 +179,8 @@ def average_perceptron(feature_matrix, labels, T):
     find a sum and divide.
     """
     # Your code here
+    #Aqui va el perceptron
+    #perceptron()
     raise NotImplementedError
 #pragma: coderesponse end
 
