@@ -292,6 +292,13 @@ def pegasos(feature_matrix, labels, T, L):
 
 
 #pragma: coderesponse template
+def classify_vector(feature_vector, theta, theta_0):
+    epsilon = 1E-6
+    prediction = np.dot(feature_vector, theta) + theta_0
+
+    return 1 if prediction > epsilon else -1
+
+
 def classify(feature_matrix, theta, theta_0):
     """
     A classification function that uses theta and theta_0 to classify a set of
@@ -309,7 +316,10 @@ def classify(feature_matrix, theta, theta_0):
     given theta and theta_0. If a prediction is GREATER THAN zero, it should
     be considered a positive classification.
     """
-    # Your code here
+
+    return np.array([classify_vector(feature_vector, theta, theta_0)
+                     for feature_vector in feature_matrix])
+
     raise NotImplementedError
 #pragma: coderesponse end
 
