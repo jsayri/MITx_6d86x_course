@@ -179,9 +179,17 @@ def average_perceptron(feature_matrix, labels, T):
     find a sum and divide.
     """
     # Your code here
-    #Aqui va el perceptron
-    #perceptron()
-    raise NotImplementedError
+    theta = np.zeros(feature_matrix.shape[1])
+    theta_0 = 0
+    sum_theta = np.zeros(feature_matrix.shape[1])
+    sum_theta_0 = 0
+    for t in range(T):
+        for i in get_order(feature_matrix.shape[0]):
+            theta, theta_0 = perceptron_single_step_update(feature_matrix[i], labels[i], theta, theta_0)
+            sum_theta = sum_theta + theta
+            sum_theta_0 = sum_theta_0 + theta_0
+    return sum_theta/(T*feature_matrix.shape[0]), sum_theta_0/(T*feature_matrix.shape[0])
+    #raise NotImplementedError
 #pragma: coderesponse end
 
 
@@ -213,7 +221,17 @@ def pegasos_single_step_update(
     completed.
     """
     # Your code here
-    raise NotImplementedError
+    #theta = current_theta
+
+    if label * (np.matmul(current_theta, feature_vector) + current_theta_0) <= 1:
+        theta = (1 - L*eta)*current_theta + (eta * label * feature_vector)
+        theta_0 = current_theta_0 + eta * label
+    else:
+        theta = (1 - L*eta)*current_theta
+        theta_0 = current_theta_0
+    return theta, theta_0
+
+    # raise NotImplementedError
 #pragma: coderesponse end
 
 
@@ -248,7 +266,16 @@ def pegasos(feature_matrix, labels, T, L):
     parameter, found after T iterations through the feature matrix.
     """
     # Your code here
-    raise NotImplementedError
+    theta = np.zeros(feature_matrix.shape[1])
+    theta_0 = 0
+    counter = 0
+    for t in range(T):
+        for i in get_order(feature_matrix.shape[0]):
+            counter = counter + 1
+            eta = 1/(np.sqrt(counter))
+            theta, theta_0 = pegasos_single_step_update(feature_matrix[i], labels[i], L, eta, theta, theta_0)
+    return theta, theta_0
+    #raise NotImplementedError
 #pragma: coderesponse end
 
 # Part II
