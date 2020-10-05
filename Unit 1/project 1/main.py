@@ -64,10 +64,10 @@ test_bow_features = p1.extract_bow_feature_vectors(test_texts, dictionary)
 # # Check convergence
 # T_range = range(1, 100)
 #
-# thetas_perceptron = [p1.perceptron(toy_features, toy_labels, T) for T in range(1, 100)]
+# thetas_perceptron = [p1.perceptron(toy_features, toy_labels, T) for T in T_range]
 # plot_thetas('Perceptron', thetas_perceptron, T_range)
 #
-# thetas_avg_perceptron = [p1.average_perceptron(toy_features, toy_labels, T) for T in range(1, 100)]
+# thetas_avg_perceptron = [p1.average_perceptron(toy_features, toy_labels, T) for T in T_range]
 # plot_thetas('Average Perceptron', thetas_avg_perceptron, T_range)
 #
 # thetas_pegasos = [p1.pegasos(toy_features, toy_labels, T, L) for T in T_range]
