@@ -1,0 +1,14 @@
+Homework 2
+5. Linear Regression and Regularization
+
+Solution to the equations for problem 5. (b) 
+dev L/ theta = -2 * sum_t((y^{t} - theta * x^{t} - theta_0) * x^{t}) + 2 * lambda * theta
+
+dev L / theta_0 = -2 * sum_t(y^{t} - theta * x^{t} - theta_0)
+
+Solution to the equations for problem 5. (c) 
+optim theta_0
+1/n * sum_t(y^{t} - theta * x^{t})
+
+optim theta, no 'n' dependence
+(sum_t(y^{t}*x^{t}) - barx * sum_t(y^{t})) / (lambda + sum_t(x^{t} * x^{t}) - barx * sum_t(x^{t}) )

@@ -1,0 +1,8 @@
+
+Discussion about seen and unseen data for data prediciton with features selection / transformation
+https://datascience.stackexchange.com/questions/51744/difference-betwen-predicting-seen-and-unseen-data
+
+conclusions:
+- increase the number of features to better predict data will work until a point of overfiting (high variance in the model)
+- unseen data can be better predicted when feature transformation techniques are used!
+- generalization problem (too complex good for training (seen) bad for testing (unseen))
