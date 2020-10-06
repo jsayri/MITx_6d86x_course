@@ -300,7 +300,20 @@ def classify(feature_matrix, theta, theta_0):
     be considered a positive classification.
     """
     # Your code here
-    raise NotImplementedError
+    '''
+    labels = np.zeros(feature_matrix.shape[0])
+    for i in range(feature_matrix.shape[0]):
+        if (np.matmul(theta, feature_matrix[i]) + theta_0) >= 0:
+            labels[i] = 1
+        else:
+            labels[i] = -1
+    
+    
+    '''
+
+    labels = np.array([1 if (np.matmul(theta, x) + theta_0) > 0 else -1 for x in feature_matrix])
+    return labels
+    #raise NotImplementedError
 #pragma: coderesponse end
 
 
@@ -338,7 +351,11 @@ def classifier_accuracy(
     accuracy of the trained classifier on the validation data.
     """
     # Your code here
-    raise NotImplementedError
+    theta, theta_0 = classifier(train_feature_matrix, train_labels, **kwargs)
+    accuracy_train_set = accuracy(classify(train_feature_matrix, theta, theta_0), train_labels)
+    accuracy_val_set = accuracy(classify(val_feature_matrix, theta, theta_0), val_labels)
+    return (accuracy_train_set, accuracy_val_set)
+    #raise NotImplementedError
 #pragma: coderesponse end
 
 
@@ -356,9 +373,12 @@ def extract_words(input_string):
     return input_string.lower().split()
 #pragma: coderesponse end
 
+'''
 
+
+'''
 #pragma: coderesponse template
-def bag_of_words(texts):
+def bag_of_words(texts, file = None):
     """
     Inputs a list of string reviews
     Returns a dictionary of unique unigrams occurring over the input
@@ -367,17 +387,25 @@ def bag_of_words(texts):
     """
     # Your code here
     dictionary = {} # maps word to unique index
+    new_dictionary = []
+    if not file is None:
+        f = open(file, "r")
+        stopwords_dict = f.readlines()
+        for i in range(len(stopwords_dict)):
+            new_dictionary.append(stopwords_dict[i].strip())    #strip() removes \n
+        #print(stopwords_dict)
+        #print(new_dictionary)
     for text in texts:
         word_list = extract_words(text)
         for word in word_list:
-            if word not in dictionary:
+            if word not in dictionary and word not in new_dictionary:
                 dictionary[word] = len(dictionary)
     return dictionary
 #pragma: coderesponse end
 
 
 #pragma: coderesponse template
-def extract_bow_feature_vectors(reviews, dictionary):
+def extract_bow_feature_vectors(reviews, dictionary, flag = None):
     """
     Inputs a list of string reviews
     Inputs the dictionary of words as given by bag_of_words
@@ -396,7 +424,10 @@ def extract_bow_feature_vectors(reviews, dictionary):
         word_list = extract_words(text)
         for word in word_list:
             if word in dictionary:
-                feature_matrix[i, dictionary[word]] = 1
+                if flag == 1:
+                    feature_matrix[i, dictionary[word]] += 1
+                else:
+                    feature_matrix[i, dictionary[word]] = 1
     return feature_matrix
 #pragma: coderesponse end
 
