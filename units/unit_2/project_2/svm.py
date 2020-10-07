@@ -6,7 +6,7 @@ from sklearn.svm import LinearSVC
 
 def one_vs_rest_svm(train_x, train_y, test_x):
     """
-    Trains a linear SVM for binary classifciation
+    Trains a linear SVM for binary classification
 
     Args:
         train_x - (n, d) NumPy array (n datapoints each with d features)
@@ -15,12 +15,15 @@ def one_vs_rest_svm(train_x, train_y, test_x):
     Returns:
         pred_test_y - (m,) NumPy array containing the labels (0 or 1) for each test data point
     """
-    raise NotImplementedError
+    clf = LinearSVC(random_state = 0, C = 0.1)
+    clf.fit(train_x, train_y)
+    return clf.predict(test_x)
+
 
 
 def multi_class_svm(train_x, train_y, test_x):
     """
-    Trains a linear SVM for multiclass classifciation using a one-vs-rest strategy
+    Trains a linear SVM for multiclass classification using a one-vs-rest strategy
 
     Args:
         train_x - (n, d) NumPy array (n datapoints each with d features)
@@ -29,7 +32,9 @@ def multi_class_svm(train_x, train_y, test_x):
     Returns:
         pred_test_y - (m,) NumPy array containing the labels (int) for each test data point
     """
-    raise NotImplementedError
+    clf = LinearSVC(random_state=0, C=0.1)
+    clf.fit(train_x, train_y)
+    return clf.predict(test_x)
 
 
 def compute_test_error_svm(test_y, pred_test_y):
