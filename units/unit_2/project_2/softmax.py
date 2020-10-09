@@ -31,7 +31,9 @@ def compute_probabilities(X, theta, temp_parameter):
     Returns:
         H - (k, n) NumPy array, where each entry H[j][i] is the probability that X[i] is labeled as j
     """
-    #YOUR CODE HERE
+    # References for softmax
+    # 1. https://www.python-course.eu/softmax.php
+    # 2. https://victorzhou.com/blog/softmax/
     # h = np.zeros((theta.shape[0], X.shape[0])) # softmax output dimmension as k x n
     # for ni, Xi in enumerate(X):
     #     c = np.max([np.matmul(theta, Xi.T)/temp_parameter])
