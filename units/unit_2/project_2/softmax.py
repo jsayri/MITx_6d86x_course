@@ -62,8 +62,11 @@ def compute_cost_function(X, Y, theta, lambda_factor, temp_parameter):
     Returns
         c - the cost value (scalar)
     """
-    #YOUR CODE HERE
-    raise NotImplementedError
+    # calculate the probability log for each feature in X (ii rows) and for each possibility in theta (jj rows) only
+    # when the value for jj in theta correspond to the label in Y
+    h = compute_probabilities(X, theta, temp_parameter) # get the softmax probability matrix
+    num_error = np.sum([np.log(h[jj, ii]) for ii in range(X.shape[0]) for jj in range(theta.shape[0]) if Y[ii] == jj]) / X.shape[0]
+    return (lambda_factor/2*np.power(theta,2).sum() - num_error)
 
 def run_gradient_descent_iteration(X, Y, theta, alpha, lambda_factor, temp_parameter):
     """
