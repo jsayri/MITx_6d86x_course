@@ -86,7 +86,15 @@ def run_gradient_descent_iteration(X, Y, theta, alpha, lambda_factor, temp_param
         theta - (k, d) NumPy array that is the final value of parameters theta
     """
     #YOUR CODE HERE
-    raise NotImplementedError
+    h = compute_probabilities(X, theta, temp_parameter) # prob calculation from softmax function
+
+    n = X.shape[0]
+    k = theta.shape[0]
+    M = sparse.coo_matrix(([1] * n, (Y, range(n))), shape=(k, n)).toarray()
+
+    gJ = lambda_factor * theta - np.matmul((M - h), X) / (n * temp_parameter)
+    return theta - alpha * gJ
+
 
 def update_y(train_y, test_y):
     """
