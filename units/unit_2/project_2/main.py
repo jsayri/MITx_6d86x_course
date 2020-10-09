@@ -38,8 +38,7 @@ def run_linear_regression_on_MNIST(lambda_factor=1):
     return test_error
 
 
-# Don't run this until the relevant functions in linear_regression.py have been fully implemented.
-print('Linear Regression, lambda 1, test_error =', run_linear_regression_on_MNIST(lambda_factor=1))
+# print('Linear Regression, lambda 1, test_error =', run_linear_regression_on_MNIST(lambda_factor=1))
 # print('Linear Regression, lambda 0.1, test_error =', run_linear_regression_on_MNIST(lambda_factor=0.1))
 # print('Linear Regression, lambda 0.01, test_error =', run_linear_regression_on_MNIST(lambda_factor=0.01))
 
@@ -63,7 +62,7 @@ def run_svm_one_vs_rest_on_MNIST():
     return test_error
 
 
-print('SVM one vs. rest test_error:', run_svm_one_vs_rest_on_MNIST())
+# print('SVM one vs. rest test_error:', run_svm_one_vs_rest_on_MNIST())
 
 
 def run_multiclass_svm_on_MNIST():
@@ -79,13 +78,11 @@ def run_multiclass_svm_on_MNIST():
     return test_error
 
 
-print('Multiclass SVM test_error:', run_multiclass_svm_on_MNIST())
+# print('Multiclass SVM test_error:', run_multiclass_svm_on_MNIST())
 
 #######################################################################
 # 4. Multinomial (Softmax) Regression and Gradient Descent
 #######################################################################
-
-# TODO: first fill out functions in softmax.py, or run_softmax_on_MNIST will not work
 
 
 def run_softmax_on_MNIST(temp_parameter=1):
@@ -114,11 +111,11 @@ def run_softmax_on_MNIST(temp_parameter=1):
     #      and print the test_error_mod3
     return test_error
 
-
 print('softmax test_error=', run_softmax_on_MNIST(temp_parameter=1))
-
 # TODO: Find the error rate for temp_parameter = [.5, 1.0, 2.0]
-#      Remember to return the tempParameter to 1, and re-run run_softmax_on_MNIST
+# print('softmax test_error=', run_softmax_on_MNIST(temp_parameter=.5))
+# print('softmax test_error=', run_softmax_on_MNIST(temp_parameter=2))
+# TODO: Remember to return the tempParameter to 1, and re-run run_softmax_on_MNIST
 
 #######################################################################
 # 6. Changing Labels
