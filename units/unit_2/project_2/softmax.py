@@ -32,7 +32,17 @@ def compute_probabilities(X, theta, temp_parameter):
         H - (k, n) NumPy array, where each entry H[j][i] is the probability that X[i] is labeled as j
     """
     #YOUR CODE HERE
-    raise NotImplementedError
+    # h = np.zeros((theta.shape[0], X.shape[0])) # softmax output dimmension as k x n
+    # for ni, Xi in enumerate(X):
+    #     c = np.max([np.matmul(theta, Xi.T)/temp_parameter])
+    #     h_xi = np.exp(np.matmul(theta, Xi.T)/temp_parameter - c) / sum(np.exp(np.matmul(theta, Xi.T)/temp_parameter - c))
+    #     h[:, ni] = h_xi
+    # return h
+    # two lines code
+    sm_fun = lambda th, x, t: np.exp(np.matmul(th, x)/t - np.max(np.matmul(th, x))/t) / np.exp(np.matmul(th, x)/t - np.max(np.matmul(th, x)/t)).sum()
+    return np.array([sm_fun(theta, Xi.T, temp_parameter) for Xi in X]).T
+
+
 
 def compute_cost_function(X, Y, theta, lambda_factor, temp_parameter):
     """
