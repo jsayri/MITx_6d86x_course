@@ -62,11 +62,12 @@ def compute_cost_function(X, Y, theta, lambda_factor, temp_parameter):
     Returns
         c - the cost value (scalar)
     """
-    # calculate the probability log for each feature in X (ii rows) and for each possibility in theta (jj rows) only
-    # when the value for jj in theta correspond to the label in Y
-    h = compute_probabilities(X, theta, temp_parameter) # get the softmax probability matrix
-    pred_error = np.sum([np.log(h[jj, ii]) for ii in range(X.shape[0]) for jj in range(theta.shape[0]) if Y[ii] == jj]) / X.shape[0]
-    return (lambda_factor / 2 * np.power(theta,2).sum() - pred_error)
+    # define a sparse matrix to calculate the log of h at the ii jj positions.
+    h = compute_probabilities(X, theta, temp_parameter)  # get the softmax probability matrix
+    n, k = X.shape[0], theta.shape[0]
+    M = sparse.coo_matrix(([1] * n, (Y, range(n))), shape=(k, n))
+    pred_error = np.sum([np.log(h[jj, ii]) for jj, ii in zip(M.row, M.col)]) / n
+    return (lambda_factor / 2 * np.power(theta, 2).sum() - pred_error)
 
 def run_gradient_descent_iteration(X, Y, theta, alpha, lambda_factor, temp_parameter):
     """
