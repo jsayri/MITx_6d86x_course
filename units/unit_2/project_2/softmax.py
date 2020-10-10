@@ -134,7 +134,7 @@ def compute_test_error_mod3(X, Y, theta, temp_parameter):
     """
     #YOUR CODE HERE
     assigned_labels = get_classification(X, theta, temp_parameter)
-    return 1 - np.mean(assigned_labels == Y)
+    return 1 - np.mean(np.mod(assigned_labels, 3) == Y)
 
 def softmax_regression(X, Y, temp_parameter, alpha, lambda_factor, k, num_iterations):
     """
