@@ -66,7 +66,8 @@ def compute_cost_function(X, Y, theta, lambda_factor, temp_parameter):
     h = compute_probabilities(X, theta, temp_parameter)  # get the softmax probability matrix
     n, k = X.shape[0], theta.shape[0]
     M = sparse.coo_matrix(([1] * n, (Y, range(n))), shape=(k, n))
-    pred_error = np.sum([np.log(h[jj, ii]) for jj, ii in zip(M.row, M.col)]) / n
+    # pred_error = np.sum([np.log(h[jj, ii]) for jj, ii in zip(M.row, M.col)]) / n # faster execution v1?
+    pred_error = np.sum(np.log(h[M.row, M.col])) / n # faster execution v2?
     return (lambda_factor / 2 * np.power(theta, 2).sum() - pred_error)
 
 def run_gradient_descent_iteration(X, Y, theta, alpha, lambda_factor, temp_parameter):
