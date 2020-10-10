@@ -85,7 +85,7 @@ def run_multiclass_svm_on_MNIST():
 #######################################################################
 
 
-def run_softmax_on_MNIST(temp_parameter=1):
+def run_softmax_on_MNIST(temp_parameter=1, error_mod3 = False):
     """
     Trains softmax, classifies test data, computes test error, and plots cost function
 
@@ -107,16 +107,18 @@ def run_softmax_on_MNIST(temp_parameter=1):
     # Save the model parameters theta obtained from calling softmax_regression to disk.
     write_pickle_data(theta, "./theta.pkl.gz")
 
-    # TODO: add your code here for the "Using the Current Model" question in tab 4.
-    #      and print the test_error_mod3
+    # check error results after updating labels to mod 3
+    if error_mod3:
+        new_train_y, new_test_y = update_y(train_y, test_y) # get the mod 3 for y labels
+        test_error = compute_test_error_mod3(test_x, new_train_y, temp_parameter)
     return test_error
 
-print('softmax test_error=', run_softmax_on_MNIST(temp_parameter=1))
-# TODO: Find the error rate for temp_parameter = [.5, 1.0, 2.0]
+# print('softmax test_error=', run_softmax_on_MNIST(temp_parameter=1))
+# Find the error rate for temp_parameter = [.5, 1.0, 2.0]
 # print('softmax test_error=', run_softmax_on_MNIST(temp_parameter=.5))
 # print('softmax test_error=', run_softmax_on_MNIST(temp_parameter=2))
-# TODO: Remember to return the tempParameter to 1, and re-run run_softmax_on_MNIST
-
+# Execution of run_softmax_on_MNIST using test error mod 3 after classification
+print('softmax test_error=', run_softmax_on_MNIST(temp_parameter=1, error_mod3=True))
 #######################################################################
 # 6. Changing Labels
 #######################################################################
@@ -133,8 +135,8 @@ def run_softmax_on_MNIST_mod3(temp_parameter=1):
     raise NotImplementedError
 
 
-# TODO: Run run_softmax_on_MNIST_mod3(), report the error rate
-
+# Run run_softmax_on_MNIST_mod3(), report the error rate
+print('softmax with mod 3 test_error=', run_softmax_on_MNIST_mod3(temp_parameter=1))
 
 #######################################################################
 # 7. Classification Using Manually Crafted Features
