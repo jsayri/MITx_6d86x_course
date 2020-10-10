@@ -110,7 +110,7 @@ def run_softmax_on_MNIST(temp_parameter=1, error_mod3 = False):
     # check error results after updating labels to mod 3
     if error_mod3:
         new_train_y, new_test_y = update_y(train_y, test_y) # get the mod 3 for y labels
-        test_error = compute_test_error_mod3(test_x, new_train_y, temp_parameter)
+        test_error = compute_test_error_mod3(test_x, new_test_y, theta, temp_parameter)
     return test_error
 
 # print('softmax test_error=', run_softmax_on_MNIST(temp_parameter=1))
@@ -118,7 +118,7 @@ def run_softmax_on_MNIST(temp_parameter=1, error_mod3 = False):
 # print('softmax test_error=', run_softmax_on_MNIST(temp_parameter=.5))
 # print('softmax test_error=', run_softmax_on_MNIST(temp_parameter=2))
 # Execution of run_softmax_on_MNIST using test error mod 3 after classification
-print('softmax test_error=', run_softmax_on_MNIST(temp_parameter=1, error_mod3=True))
+# print('softmax test_error=', run_softmax_on_MNIST(temp_parameter=1, error_mod3=True))
 #######################################################################
 # 6. Changing Labels
 #######################################################################
@@ -128,15 +128,32 @@ print('softmax test_error=', run_softmax_on_MNIST(temp_parameter=1, error_mod3=T
 def run_softmax_on_MNIST_mod3(temp_parameter=1):
     """
     Trains Softmax regression on digit (mod 3) classifications.
+    It uses the following values for parameters:
+    alpha = 0.3
+    lambda = 1e-4
+    num_iterations = 150
 
-    See run_softmax_on_MNIST for more info.
+    Saves the final theta to ./theta_mod3.pkl.gz
+
+    Returns:
+        Final test error
     """
-    # YOUR CODE HERE
-    raise NotImplementedError
+    train_x, train_y, test_x, test_y = get_MNIST_data()
+    new_train_y, new_test_y = update_y(train_y, test_y)  # get the mod 3 for y labels
+    theta, cost_function_history = softmax_regression(train_x, new_train_y, temp_parameter, alpha=0.3, lambda_factor=1.0e-4,
+                                                      k=10, num_iterations=150)
+    plot_cost_function_over_time(cost_function_history)
+    test_error = compute_test_error_mod3(test_x, new_test_y, theta, temp_parameter)
+    # Save the model parameters theta obtained from calling softmax_regression to disk.
+    write_pickle_data(theta, "./theta_mod3.pkl.gz")
+
+    return test_error
 
 
 # Run run_softmax_on_MNIST_mod3(), report the error rate
-print('softmax with mod 3 test_error=', run_softmax_on_MNIST_mod3(temp_parameter=1))
+# print('softmax with mod 3 test_error=', run_softmax_on_MNIST_mod3(temp_parameter=1))
+# result: softmax with mod 3 test_error= 0.18720000000000003
+
 
 #######################################################################
 # 7. Classification Using Manually Crafted Features
