@@ -7,15 +7,22 @@ Over the next months some python's code and jupyter implementation will be devel
 
 ## What to store & folders architecture.
 Is expected to store the __code solution__ or any implementation done during the assitance to the lectures. In order to have a common workframe we propose to follow this architecture:
-**Master/ Main folder**
---> environment file, course calendar, gitignore and license
---> units (_folder_)
-------> unit_1 (_folder_)
-----------> python code from lecture
-----------> python code for testing
-----------> proyect (_folder_)
---------------> code from project
---------------> results from project (text files, no big images)
+```
+Main folder
+│   Readme.md
+│   environment.yaml
+│   .gitignore
+│   ...
+└─── units
+    └─── unit_1
+        │ python code from lectures
+        │ python code for testing
+        │ ...
+        └─── proyect
+            │ python code for project
+            │ results from project (text files, no big images)
+            │ ...
+```
 
 __Avoid to store dataset and large files__ (pdf, ppt, doc, etc). Better to keep track of files that can be visulized directly from the github server.
 
@@ -62,11 +69,11 @@ In order to set-up your local & remote space, some steps are recomended:
 ## Required libraries, environment discussion
 All libraries and require packages all listed inside requirements.yalm file.
 Recover and install environement as:
-```sh
+```console
 > conda env create -f environment.yaml --force
 ```
 Do not forget to update environment.yaml file if new packages were installed:
-```sh
+```console
 > conda env export -n ds_gp -f environment.yaml
 ```
 
