@@ -39,4 +39,10 @@ def rbf_kernel(X, Y, gamma):
             kernel_matrix - (n, m) Numpy array containing the kernel matrix
     """
     # YOUR CODE HERE
-    raise NotImplementedError
+    # return np.exp(- gamma * np.linalg.norm(X-Y.T))
+    # return np.exp(- gamma * np.linalg.norm(X-Y))
+    rbf_k = np.zeros((X.shape[0], Y.shape[0]))
+    rbf_fun = lambda x, y, gamma: np.exp(-gamma * np.linalg.norm(x - y)**2)
+    for ii, Xi in enumerate(X):
+        rbf_k[ii, :] = [rbf_fun(Xi, Yjj, gamma) for Yjj in Y]
+    return rbf_k
