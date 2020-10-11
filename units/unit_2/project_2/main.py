@@ -207,11 +207,11 @@ def run_pca_softmax_on_MNIST(train_pca, train_y, test_pca, test_y, temp_paramete
 # the first and second MNIST images as reconstructed solely from
 # their 18-dimensional principal component representation.
 # Compare the reconstructed images with the originals.
-firstimage_reconstructed = reconstruct_PC(train_pca[0, ], pcs, n_components, train_x, feature_means)#feature_means added since release
+# firstimage_reconstructed = reconstruct_PC(train_pca[0, ], pcs, n_components, train_x, feature_means)#feature_means added since release
 # plot_images(firstimage_reconstructed)
 # plot_images(train_x[0, ])
 
-secondimage_reconstructed = reconstruct_PC(train_pca[1, ], pcs, n_components, train_x, feature_means)#feature_means added since release
+# secondimage_reconstructed = reconstruct_PC(train_pca[1, ], pcs, n_components, train_x, feature_means)#feature_means added since release
 # plot_images(secondimage_reconstructed)
 # plot_images(train_x[1, ])
 
@@ -256,5 +256,5 @@ def run_cubic_pca_softmax_on_MNIST(train_cube, train_y, test_cube, test_y, temp_
     return test_error
 
 # Run run_cubic_pca_softmax_on_MNIST(), report the error rate
-print('softmax with cubic 10 pca test_error=', run_cubic_pca_softmax_on_MNIST(train_pca, train_y, test_pca, test_y, temp_parameter=1))
-# result =
+print('softmax with cubic 10 pca test_error=', run_cubic_pca_softmax_on_MNIST(train_cube, train_y, test_cube, test_y, temp_parameter=1))
+# result = 0.08399999999999996
