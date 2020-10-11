@@ -1,11 +1,11 @@
-# MITx 6.86x course, projects & letures code repository
-Online course of Machine Learning with Python, From Linear Models to Deep Learning, course by MIT with the EDX platform.
+# MITx 6.86x course. Projects & lectures code repository
+Online course of Machine Learning with Python, From Linear Models to Deep Learning, by MIT with the EDX platform.
 Repository maintanied by [Jose](https://github.com/jsayri), [Ravi](https://github.com/vasurav) and [Sophia](https://github.com/sophiafakih) 
 
 ## Global objective for this repository
-Over the next months some python's code and jupyter implementation will be developed. In order to track the evolution of the participants to this repository, a common folder tree directory was established. The general idea is to share your code and solutions while having a backup of the course development.
+Over the next months some python's code and jupyter implementation will be developed. In order to track the evolution of the participants to this repository, a common folder tree directory was proposed. The general idea is to share our codes and solutions while having a backup during the course development.
 
-## What to store & folders architecture.
+## What to store & folders architecture
 Is expected to store the __code solution__ or any implementation done during the assitance to the lectures. In order to have a common workframe we propose to follow this architecture:
 ```
 Main folder
