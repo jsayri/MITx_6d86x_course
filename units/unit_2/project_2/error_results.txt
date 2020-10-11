@@ -1,0 +1,11 @@
+P2. Section 6, changing labels
+error after replacing with mod3
+0.07679999999999998
+
+training with labels in mod3
+error = 0.18720000000000003
+
+
+
+error on the test set for cubic 10 pca
+softmax with cubic 10 pca test_error= 0.08399999999999996
