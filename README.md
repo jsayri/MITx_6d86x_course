@@ -1,4 +1,4 @@
-# MITx 6.86x course, projects & leture's code repository
+# MITx 6.86x course, projects & letures code repository
 Online course of Machine Learning with Python, From Linear Models to Deep Learning, course by MIT with the EDX platform.
 Repository maintanied by [Jose](https://github.com/jsayri), [Ravi](https://github.com/vasurav) and [Sophia](https://github.com/sophiafakih) 
 
