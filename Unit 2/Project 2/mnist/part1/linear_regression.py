@@ -1,12 +1,6 @@
 import numpy as np
 
 ### Functions for you to fill in ###
-
-def closed_form_single_entry(feature, label, lambda_factor):
-    numerator = feature * label
-    denominator  = np.outer(feature, feature + lambda_factor * np.identity(len(feature)))
-    return np.divide(numerator, denominator)
-
 def closed_form(X, Y, lambda_factor):
     """
     Computes the closed form solution of linear regression with L2 regularization
@@ -21,8 +15,11 @@ def closed_form(X, Y, lambda_factor):
         represents the y-axis intercept of the model and therefore X[0] = 1
     """
 
-    return np.divide(np.multiply(np.transpose(X, Y)),
-                     np.multiply(np.transpose(X), X) + lambda_factor * np.identity(len(X)))
+    first_term = np.matmul(X.T, X) + lambda_factor * np.identity(X.shape[1])
+    inv_first_term = np.linalg.inv(first_term)
+
+
+    return np.matmul(np.matmul(inv_first_term, X.T), Y)
     raise NotImplementedError
 
 ### Functions which are already complete, for you to use ###
