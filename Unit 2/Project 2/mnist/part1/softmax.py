@@ -19,6 +19,19 @@ def augment_feature_vector(X):
     column_of_ones = np.zeros([len(X), 1]) + 1
     return np.hstack((column_of_ones, X))
 
+def get_exponent_term(feature_vector, theta, temp_parameter):
+    return np.dot(theta, feature_vector/temp_parameter)
+
+def compute_probability(feature_vector, thetas, temp_parameter):
+    exponent_terms = np.array([get_exponent_term(feature_vector, theta, temp_parameter) for theta in thetas])
+    c = max(exponent_terms)
+    exponent_terms_corrected = exponent_terms - c
+
+    exponents = np.exp(exponent_terms_corrected)
+    denominator = np.sum(exponents)
+
+    return exponents / denominator
+
 def compute_probabilities(X, theta, temp_parameter):
     """
     Computes, for each datapoint X[i], the probability that X[i] is labeled as j
@@ -31,7 +44,9 @@ def compute_probabilities(X, theta, temp_parameter):
     Returns:
         H - (k, n) NumPy array, where each entry H[j][i] is the probability that X[i] is labeled as j
     """
-    #YOUR CODE HERE
+
+    return np.transpose(np.array([compute_probability(feature_vector, theta, temp_parameter) for feature_vector in X]))
+
     raise NotImplementedError
 
 def compute_cost_function(X, Y, theta, lambda_factor, temp_parameter):

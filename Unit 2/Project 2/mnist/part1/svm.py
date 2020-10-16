@@ -4,7 +4,7 @@ from sklearn.svm import LinearSVC
 
 ### Functions for you to fill in ###
 
-def one_vs_rest_svm(train_x, train_y, test_x):
+def one_vs_rest_svm(train_x, train_y, test_x, C=0.1):
     """
     Trains a linear SVM for binary classifciation
 
@@ -16,7 +16,7 @@ def one_vs_rest_svm(train_x, train_y, test_x):
         pred_test_y - (m,) NumPy array containing the labels (0 or 1) for each test data point
     """
 
-    classifier = LinearSVC(random_state=0, C=0.1)
+    classifier = LinearSVC(random_state=0, C=C)
     classifier.fit(train_x, train_y)
 
     return classifier.predict(test_x)
@@ -24,7 +24,7 @@ def one_vs_rest_svm(train_x, train_y, test_x):
     raise NotImplementedError
 
 
-def multi_class_svm(train_x, train_y, test_x):
+def multi_class_svm(train_x, train_y, test_x, C=0.1):
     """
     Trains a linear SVM for multiclass classifciation using a one-vs-rest strategy
 
@@ -35,6 +35,12 @@ def multi_class_svm(train_x, train_y, test_x):
     Returns:
         pred_test_y - (m,) NumPy array containing the labels (int) for each test data point
     """
+
+    classifier = LinearSVC(random_state=0, C=C)
+    classifier.fit(train_x, train_y)
+
+    return classifier.predict(test_x)
+
     raise NotImplementedError
 
 
