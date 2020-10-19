@@ -72,10 +72,15 @@ def compute_cost_function(X, Y, theta, lambda_factor, temp_parameter):
         c - the cost value (scalar)
     """
     probabilities = compute_probabilities(X, theta, temp_parameter)
-    feature_losses = np.array([compute_feature_loss(index, label, probabilities)
-                               for index, (feature, label) in enumerate(zip(X, Y))])
+    # feature_losses = np.array([compute_feature_loss(index, label, probabilities)
+    #                            for index, (feature, label) in enumerate(zip(X, Y))])
+
 
     n = X.shape[0]
+    k = theta.shape[0]
+
+    M = sparse.coo_matrix(([1] * n, (Y, range(n))), shape=(k, n))
+    feature_losses = np.log(probabilities[M.row, M.col])
 
     total_loss = np.sum(feature_losses) * (-1 / n)
     regularization = (lambda_factor/2) * np.sum(np.square(theta))
@@ -83,9 +88,6 @@ def compute_cost_function(X, Y, theta, lambda_factor, temp_parameter):
     return total_loss + regularization
 
     raise NotImplementedError
-
-def calc_gradient(x_sample, label, theta, lambda_factor, temp_parameter):
-    pass
 
 
 def run_gradient_descent_iteration(X, Y, theta, alpha, lambda_factor, temp_parameter):
@@ -105,15 +107,17 @@ def run_gradient_descent_iteration(X, Y, theta, alpha, lambda_factor, temp_param
     Returns:
         theta - (k, d) NumPy array that is the final value of parameters theta
     """
+
     k = theta.shape[0]
     n = X.shape[0]
+    M = sparse.coo_matrix(([1] * n, (Y, range(n))), shape=(k,n)).toarray()
 
-    cost = compute_cost_function(X, Y, theta, lambda_factor, temp_parameter)
-    M = sparse.coo_matrix(([1]*n, (Y, range(n))), shape=(k,n))
+    h = compute_probabilities(X, theta, temp_parameter)
 
-    gradient = (-1/(temp_parameter * n)) * np.sum(np.matmul(X, M - compute_probabilities(X, theta, temp_parameter)))
+    gradient = (-1/(temp_parameter * n)) * np.matmul((M - h), X) \
+               + lambda_factor * theta
 
-    return theta - alpha * np.matmul(gradient, cost)
+    return theta - alpha * gradient
 
     raise NotImplementedError
 
