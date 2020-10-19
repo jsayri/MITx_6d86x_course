@@ -32,6 +32,7 @@ def compute_probability(feature_vector, thetas, temp_parameter):
 
     return exponents / denominator
 
+
 def compute_probabilities(X, theta, temp_parameter):
     """
     Computes, for each datapoint X[i], the probability that X[i] is labeled as j
@@ -49,6 +50,11 @@ def compute_probabilities(X, theta, temp_parameter):
 
     raise NotImplementedError
 
+
+def compute_feature_loss(x_index, label, probs):
+    return np.log(probs[label][x_index])
+
+
 def compute_cost_function(X, Y, theta, lambda_factor, temp_parameter):
     """
     Computes the total cost over every datapoint.
@@ -65,8 +71,22 @@ def compute_cost_function(X, Y, theta, lambda_factor, temp_parameter):
     Returns
         c - the cost value (scalar)
     """
-    #YOUR CODE HERE
+    probabilities = compute_probabilities(X, theta, temp_parameter)
+    feature_losses = np.array([compute_feature_loss(index, label, probabilities)
+                               for index, (feature, label) in enumerate(zip(X, Y))])
+
+    n = X.shape[0]
+
+    total_loss = np.sum(feature_losses) * (-1 / n)
+    regularization = (lambda_factor/2) * np.sum(np.square(theta))
+
+    return total_loss + regularization
+
     raise NotImplementedError
+
+def calc_gradient(x_sample, label, theta, lambda_factor, temp_parameter):
+    pass
+
 
 def run_gradient_descent_iteration(X, Y, theta, alpha, lambda_factor, temp_parameter):
     """
@@ -85,7 +105,16 @@ def run_gradient_descent_iteration(X, Y, theta, alpha, lambda_factor, temp_param
     Returns:
         theta - (k, d) NumPy array that is the final value of parameters theta
     """
-    #YOUR CODE HERE
+    k = theta.shape[0]
+    n = X.shape[0]
+
+    cost = compute_cost_function(X, Y, theta, lambda_factor, temp_parameter)
+    M = sparse.coo_matrix(([1]*n, (Y, range(n))), shape=(k,n))
+
+    gradient = (-1/(temp_parameter * n)) * np.sum(np.matmul(X, M - compute_probabilities(X, theta, temp_parameter)))
+
+    return theta - alpha * np.matmul(gradient, cost)
+
     raise NotImplementedError
 
 def update_y(train_y, test_y):
