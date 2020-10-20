@@ -158,17 +158,7 @@ def compute_test_error_mod3(X, Y, theta, temp_parameter):
     """
     estimated_Y = get_classification(X, theta, temp_parameter)
 
-    Y_mod3, estimated_Y_mod3 = update_y(Y, estimated_Y)
-
-    n = X.shape[0]
-    k = theta.shape[0]
-    h = compute_probabilities(X, theta, temp_parameter)
-
-    M = sparse.coo_matrix(([1] * n, (Y_mod3, range(n))), shape=(k, n))
-    feature_losses = np.log(h[M.row, M.col])
-
-    total_loss = np.sum(feature_losses) * (-1 / n)
-
+    return 1 - np.mean(np.mod(estimated_Y, 3) == Y)
     raise NotImplementedError
 
 def softmax_regression(X, Y, temp_parameter, alpha, lambda_factor, k, num_iterations):
