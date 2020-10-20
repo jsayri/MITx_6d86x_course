@@ -138,7 +138,7 @@ def update_y(train_y, test_y):
         test_y_mod3 - (n, ) NumPy array containing the new labels (a number between 0-2)
                     for each datapoint in the test set
     """
-    #YOUR CODE HERE
+    return np.mod(train_y, 3), np.mod(test_y, 3)
     raise NotImplementedError
 
 def compute_test_error_mod3(X, Y, theta, temp_parameter):
@@ -156,7 +156,19 @@ def compute_test_error_mod3(X, Y, theta, temp_parameter):
     Returns:
         test_error - the error rate of the classifier (scalar)
     """
-    #YOUR CODE HERE
+    estimated_Y = get_classification(X, theta, temp_parameter)
+
+    Y_mod3, estimated_Y_mod3 = update_y(Y, estimated_Y)
+
+    n = X.shape[0]
+    k = theta.shape[0]
+    h = compute_probabilities(X, theta, temp_parameter)
+
+    M = sparse.coo_matrix(([1] * n, (Y_mod3, range(n))), shape=(k, n))
+    feature_losses = np.log(h[M.row, M.col])
+
+    total_loss = np.sum(feature_losses) * (-1 / n)
+
     raise NotImplementedError
 
 def softmax_regression(X, Y, temp_parameter, alpha, lambda_factor, k, num_iterations):
@@ -183,9 +195,11 @@ def softmax_regression(X, Y, temp_parameter, alpha, lambda_factor, k, num_iterat
     X = augment_feature_vector(X)
     theta = np.zeros([k, X.shape[1]])
     cost_function_progression = []
+
     for i in range(num_iterations):
         cost_function_progression.append(compute_cost_function(X, Y, theta, lambda_factor, temp_parameter))
         theta = run_gradient_descent_iteration(X, Y, theta, alpha, lambda_factor, temp_parameter)
+
     return theta, cost_function_progression
 
 def get_classification(X, theta, temp_parameter):
