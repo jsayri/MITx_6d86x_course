@@ -13,7 +13,7 @@ import utils
 from utils import *
 from train_utils import batchify_data, run_epoch, train_model
 
-def main():
+def main(batch_size = 32, lr = 0.1, momentum = 0., leakyReLU_on = False):
     # Load the dataset
     num_classes = 10
     X_train, y_train, X_test, y_test = get_MNIST_data()
@@ -31,20 +31,27 @@ def main():
     y_train = [y_train[i] for i in permutation]
 
     # Split dataset into batches
-    batch_size = 32
+    # batch_size = 32
     train_batches = batchify_data(X_train, y_train, batch_size)
     dev_batches = batchify_data(X_dev, y_dev, batch_size)
     test_batches = batchify_data(X_test, y_test, batch_size)
 
     #################################
     ## Model specification TODO
-    model = nn.Sequential(
-              nn.Linear(784, 10),
-              nn.ReLU(),
-              nn.Linear(10, 10),
-            )
-    lr=0.1
-    momentum=0
+    if leakyReLU_on:
+        model = nn.Sequential(
+            nn.Linear(784, 10),
+            nn.LeakyReLU(0.1),
+            nn.Linear(10, 10),
+        )
+    else:
+        model = nn.Sequential(
+            nn.Linear(784, 10),
+            nn.ReLU(),
+            nn.Linear(10, 10),
+        )
+    # lr=0.1
+    # momentum=0
     ##################################
 
     train_model(train_batches, dev_batches, model, lr=lr, momentum=momentum)
@@ -57,6 +64,29 @@ def main():
 
 if __name__ == '__main__':
     # Specify seed for deterministic behavior, then shuffle. Do not change seed for official submissions to edx
+    print('baseline execution')
     np.random.seed(12321)  # for reproducibility
     torch.manual_seed(12321)  # for reproducibility
     main()
+
+    print('batch size at 64')
+    np.random.seed(12321)  # for reproducibility
+    torch.manual_seed(12321)  # for reproducibility
+    main(batch_size = 64)
+
+    print('learning rate at .01')
+    np.random.seed(12321)  # for reproducibility
+    torch.manual_seed(12321)  # for reproducibility
+    main(lr=.01)
+
+    print('momentum at .9')
+    np.random.seed(12321)  # for reproducibility
+    torch.manual_seed(12321)  # for reproducibility
+    main(momentum = .9)
+
+
+    print('LeakyReLU Activation')
+    np.random.seed(12321)  # for reproducibility
+    torch.manual_seed(12321)  # for reproducibility
+    main(leakyReLU_on = True)
+
