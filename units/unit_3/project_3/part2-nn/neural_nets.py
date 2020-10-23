@@ -59,7 +59,7 @@ class NeuralNetwork():
         hidden_layer_activation = np.vectorize(rectified_linear_unit)(hidden_layer_weighted_input) # 3 by 1 matrix
 
         output = np.matmul(self.hidden_to_output_weights, hidden_layer_activation)
-        activated_output = output_layer_activation(output)
+        activated_output = np.vectorize(output_layer_activation)(output)
 
         ### Backpropagation ###
 
@@ -81,10 +81,10 @@ class NeuralNetwork():
         input_values = np.matrix([[x1],[x2]])
 
         # Compute output for a single input(should be same as the forward propagation in training)
-        hidden_layer_weighted_input = input_values.matmul(self.input_to_hidden_weights.T) + self.biases
+        hidden_layer_weighted_input = np.matmul(self.input_to_hidden_weights, input_values) + self.biases
         hidden_layer_activation = np.vectorize(rectified_linear_unit)(hidden_layer_weighted_input)
-        output = hidden_layer_activation.matmul(self.hidden_to_output_weights.T)
-        activated_output = output_layer_activation(output)
+        output = np.matmul(self.hidden_to_output_weights, hidden_layer_activation)
+        activated_output = np.vectorize(output_layer_activation)(output)
 
         return activated_output.item()
 
