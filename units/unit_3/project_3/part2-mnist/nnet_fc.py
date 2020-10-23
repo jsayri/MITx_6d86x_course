@@ -37,18 +37,18 @@ def main(batch_size = 32, lr = 0.1, momentum = 0., leakyReLU_on = False):
     test_batches = batchify_data(X_test, y_test, batch_size)
 
     #################################
-    ## Model specification TODO
+    ## Model specification
     if leakyReLU_on:
         model = nn.Sequential(
-            nn.Linear(784, 10),
+            nn.Linear(784, 128), #nn.Linear(784, 10),
             nn.LeakyReLU(0.1),
-            nn.Linear(10, 10),
+            nn.Linear(128, 10), #nn.Linear(10, 10),
         )
     else:
         model = nn.Sequential(
-            nn.Linear(784, 10),
+            nn.Linear(784, 128), #nn.Linear(784, 10),
             nn.ReLU(),
-            nn.Linear(10, 10),
+            nn.Linear(128, 10), #nn.Linear(10, 10),
         )
     # lr=0.1
     # momentum=0
