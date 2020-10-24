@@ -34,8 +34,8 @@ class CNN(nn.Module):
         xc = F.relu(self.conv1(x)) # activation function ReLU after convolution
         xp = self.pool1(xc)
         xd = self.drop(xp)
-        xf = self.flatten(xd)
-        xl = self.fc(xf)
+        xf = self.flatten(xd) # xf = F.relu(self.flatten(xd)) # not a big change
+        xl = self.fc(xf) # xl = F.relu(self.fc(xf)) # not a big change
         xo = self.out(xl)
         # use model layers to predict the two digits
         out_first_digit = xo[:, 0:10]

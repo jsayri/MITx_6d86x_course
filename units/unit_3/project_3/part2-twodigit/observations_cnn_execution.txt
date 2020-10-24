@@ -1,0 +1,105 @@
+Project 3: Digit recognition (Part 2)
+Section 10. Overlapping, multi-digit MNIST
+
+Question: Convolutional model 
+To solve the convolutiona model, three new layers were added to the previous implementation, they were:
+- A convolutional layer, it at 32 layers and keep the same dimesion of images (same convolution)
+- A maxPool2D, it reduce the dimension of images by a factor of two
+- A dropout with a default probability of .5
+
+Final solution requires to recalculate the number of inputs after flatten layer, some some additional
+variables were include to do this calculation
+
+
+Training without enhancement of the method (baseline), training avg time 40 seconds
+
+Epoch 30:
+
+100%|██████████| 562/562 [00:30<00:00, 18.70it/s]
+Train | loss1: 0.046578  accuracy1: 0.984709 | loss2: 0.066875  accuracy2: 0.975840
+100%|██████████| 62/62 [00:01<00:00, 47.50it/s]
+Valid | loss1: 0.077204  accuracy1: 0.979083 | loss2: 0.082009  accuracy2: 0.970514
+100%|██████████| 62/62 [00:01<00:00, 47.49it/s]
+Test loss1: 0.094185  accuracy1: 0.974294  loss2: 0.099986   accuracy2: 0.969506
+
+For faster calculation better to use the gpu. Based on the comments from the section, the elements to
+modify are: (according to manjurajashekhar)
+- Runtime -> Change Runtime type -> Hardware Accelerator as GPU (not require if pycharm)
+- Update tensors in batchify_data to use cuda()
+- Update compute_accuracy to copy tensors to cpu. Specifically change to: predictions.cpu().numpy(), y.cpu().numpy()
+- Update CNN model to use model.cuda()
+
+Training baseline but with gpu (cuda execution), training avg time 6 seconds
+Epoch 30:
+
+100%|██████████| 562/562 [00:06<00:00, 90.11it/s]
+  0%|          | 0/62 [00:00<?, ?it/s]Train | loss1: 0.046798  accuracy1: 0.983875 | loss2: 0.067119  accuracy2: 0.977258
+100%|██████████| 62/62 [00:00<00:00, 235.77it/s]
+Valid | loss1: 0.082088  accuracy1: 0.977571 | loss2: 0.080306  accuracy2: 0.973538
+100%|██████████| 62/62 [00:00<00:00, 130.34it/s]
+Test loss1: 0.096025  accuracy1: 0.977319  loss2: 0.101227   accuracy2: 0.969506
+
+Training with an addiontal ReLU in between drop & flatten layer.
+no significatives improvement were observed with this modification
+
+Epoch 30:
+
+100%|██████████| 562/562 [00:07<00:00, 74.75it/s]
+Train | loss1: 0.046794  accuracy1: 0.983763 | loss2: 0.067127  accuracy2: 0.977285
+100%|██████████| 62/62 [00:00<00:00, 224.18it/s]
+Valid | loss1: 0.082027  accuracy1: 0.977571 | loss2: 0.080359  accuracy2: 0.973286
+100%|██████████| 62/62 [00:00<00:00, 153.74it/s]
+Test loss1: 0.095950  accuracy1: 0.977319  loss2: 0.101219   accuracy2: 0.969002
+
+
+Training with an addiontal ReLU in between flatten & hidden layer.
+really small improvement at the accuracy at test values (third decimal value), no significan improvement
+
+Epoch 30:
+
+100%|██████████| 562/562 [00:07<00:00, 76.80it/s]
+Train | loss1: 0.035946  accuracy1: 0.987405 | loss2: 0.050402  accuracy2: 0.982262
+100%|██████████| 62/62 [00:00<00:00, 217.08it/s]
+Valid | loss1: 0.083127  accuracy1: 0.975554 | loss2: 0.079695  accuracy2: 0.973790
+100%|██████████| 62/62 [00:00<00:00, 236.00it/s]
+Test loss1: 0.095506  accuracy1: 0.973538  loss2: 0.089938   accuracy2: 0.969758
+
+
+Training with Adam optimisation method (same arguments as in SGD, learning rate at .01)
+Accuracy was in genral reduce compare to baseline, learning rate used was the same as SGD
+
+Epoch 30:
+
+100%|██████████| 562/562 [00:09<00:00, 57.48it/s]
+Train | loss1: 0.146571  accuracy1: 0.955905 | loss2: 0.175379  accuracy2: 0.945674
+100%|██████████| 62/62 [00:00<00:00, 222.55it/s]
+Valid | loss1: 0.144631  accuracy1: 0.963206 | loss2: 0.160481  accuracy2: 0.955393
+100%|██████████| 62/62 [00:00<00:00, 186.76it/s]
+Test loss1: 0.175432  accuracy1: 0.959425  loss2: 0.194669   accuracy2: 0.946573
+
+Training with Adam optimisation method, learning rate by default (lr=0.001)
+Default learning rate was better at increasing accuracy, but still didn't rise performace
+for the test data.
+
+Epoch 30:
+
+100%|██████████| 562/562 [00:13<00:00, 43.02it/s]
+Train | loss1: 0.034410  accuracy1: 0.988101 | loss2: 0.048969  accuracy2: 0.981873
+100%|██████████| 62/62 [00:00<00:00, 108.73it/s]
+Valid | loss1: 0.084800  accuracy1: 0.978075 | loss2: 0.083570  accuracy2: 0.975050
+100%|██████████| 62/62 [00:00<00:00, 250.65it/s]
+Test loss1: 0.121312  accuracy1: 0.973538  loss2: 0.114847   accuracy2: 0.966986
+
+Training with Adam, default lr, 40 epoch
+More epoch increase the training and validation but not the test set, means that the model start
+to overfit with the increment of epoch.
+
+Epoch 40:
+
+100%|██████████| 562/562 [00:11<00:00, 47.10it/s]
+Train | loss1: 0.028717  accuracy1: 0.989741 | loss2: 0.043281  accuracy2: 0.985098
+100%|██████████| 62/62 [00:01<00:00, 52.89it/s]
+Valid | loss1: 0.084752  accuracy1: 0.979083 | loss2: 0.086682  accuracy2: 0.976815
+100%|██████████| 62/62 [00:00<00:00, 139.74it/s]
+Test loss1: 0.131573  accuracy1: 0.970514  loss2: 0.120635   accuracy2: 0.965474
+
