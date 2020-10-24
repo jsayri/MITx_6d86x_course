@@ -22,17 +22,17 @@ def batchify_data(x_data, y_data, batch_size):
     for i in range(0, N, batch_size):
         batches.append({
             'x': torch.tensor(x_data[i:i + batch_size],
-                              dtype=torch.float32),
+                              dtype=torch.float32).cuda(),
             'y': torch.tensor([y_data[0][i:i + batch_size],
                                y_data[1][i:i + batch_size]],
-                               dtype=torch.int64)
+                               dtype=torch.int64).cuda()
         })
     return batches
 
 
 def compute_accuracy(predictions, y):
     """Computes the accuracy of predictions against the gold labels, y."""
-    return np.mean(np.equal(predictions.numpy(), y.numpy()))
+    return np.mean(np.equal(predictions.cpu().numpy(), y.cpu().numpy()))
 
 
 def train_model(train_data, dev_data, model, lr=0.01, momentum=0.9, nesterov=False, n_epochs=30):

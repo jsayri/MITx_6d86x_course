@@ -66,6 +66,7 @@ def main():
     # Load model
     input_dimension = img_rows * img_cols
     model = CNN(input_dimension)
+    model.cuda()
 
     # Train
     train_model(train_batches, dev_batches, model)
