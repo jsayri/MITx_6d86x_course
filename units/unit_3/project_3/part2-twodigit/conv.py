@@ -19,11 +19,27 @@ class CNN(nn.Module):
 
     def __init__(self, input_dimension):
         super(CNN, self).__init__()
-        # TODO initialize model layers here
+        # set convolution layers parameters
+        n_c1 = 32 # conv kernels number
+        n_p1 = 2 # pool number
+        n_fc1 = input_dimension * n_c1 / (2*n_p1)
+        self.conv1 = nn.Conv2d(1, n_c1, (3, 3), padding=1) # convolutional layer, keep dimension
+        self.pool1 = nn.MaxPool2d((n_p1, n_p1)) # pool layer, reduce dimension in n_p1 factor
+        self.drop = nn.Dropout() # dropout layer
+        self.flatten = Flatten() # flatten function
+        self.fc = nn.Linear(int(n_fc1), 64) # fully connected layer
+        self.out = nn.Linear(64, 20) # output layer
 
     def forward(self, x):
-
-        # TODO use model layers to predict the two digits
+        xc = F.relu(self.conv1(x)) # activation function ReLU after convolution
+        xp = self.pool1(xc)
+        xd = self.drop(xp)
+        xf = self.flatten(xd)
+        xl = self.fc(xf)
+        xo = self.out(xl)
+        # use model layers to predict the two digits
+        out_first_digit = xo[:, 0:10]
+        out_second_digit = xo[:, 10:]
 
         return out_first_digit, out_second_digit
 
@@ -49,7 +65,7 @@ def main():
 
     # Load model
     input_dimension = img_rows * img_cols
-    model = CNN(input_dimension) # TODO add proper layers to CNN class above
+    model = CNN(input_dimension)
 
     # Train
     train_model(train_batches, dev_batches, model)
