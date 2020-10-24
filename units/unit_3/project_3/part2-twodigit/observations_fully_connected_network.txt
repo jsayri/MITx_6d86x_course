@@ -1,0 +1,45 @@
+Project 3: Digit recognition (Part 2)
+Section 10. Overlapping, multi-digit MNIST
+
+Question: Fully connected networks
+To solve the fully connected network, a hidded layer was added using the function argument (number of inputs)
+together with an 'output' layer with 20 units in order to divide on each digit-output
+
+Final solution submited was without activation functions among layers, but some test were done 
+in order to see the accuracy when activation units were added.
+
+Training without activation layers
+
+Epoch 30:
+
+100%|██████████| 562/562 [00:00<00:00, 679.06it/s]
+100%|██████████| 62/62 [00:00<00:00, 2057.25it/s]
+Train | loss1: 0.260008  accuracy1: 0.924766 | loss2: 0.285256  accuracy2: 0.916315
+Valid | loss1: 0.368430  accuracy1: 0.892389 | loss2: 0.353787  accuracy2: 0.898185
+100%|██████████| 62/62 [00:00<00:00, 1324.24it/s]
+Test loss1: 0.400817  accuracy1: 0.892389  loss2: 0.374367   accuracy2: 0.893901
+
+Training with one ReLU between flatten and hidden layer 
+xl = F.relu(self.hidden1(xf))
+(improve results at the training, validation and test sets)
+
+Epoch 30:
+100%|██████████| 562/562 [00:00<00:00, 832.04it/s]
+100%|██████████| 62/62 [00:00<00:00, 2803.71it/s]
+Train | loss1: 0.115432  accuracy1: 0.968138 | loss2: 0.139218  accuracy2: 0.959353
+Valid | loss1: 0.258061  accuracy1: 0.925655 | loss2: 0.247420  accuracy2: 0.927419
+100%|██████████| 62/62 [00:00<00:00, 2056.00it/s]
+Test loss1: 0.267069  accuracy1: 0.927671  loss2: 0.280860   accuracy2: 0.915575
+
+Training with one activation layer: one leaky ReLU between flatten and hidden layer
+xl = F.leaky_relu(self.hidden1(xf), .1)
+(almost same performance for all datasets as the execution with ReLU between flatten and hidden layer)
+
+Epoch 30:
+
+100%|██████████| 562/562 [00:00<00:00, 831.93it/s]
+Train | loss1: 0.118604  accuracy1: 0.967054 | loss2: 0.147334  accuracy2: 0.957156
+Valid | loss1: 0.256911  accuracy1: 0.924899 | loss2: 0.246961  accuracy2: 0.927671
+100%|██████████| 62/62 [00:00<00:00, 1537.92it/s]
+100%|██████████| 62/62 [00:00<00:00, 1541.28it/s]
+Test loss1: 0.269302  accuracy1: 0.926663  loss2: 0.270024   accuracy2: 0.916079
