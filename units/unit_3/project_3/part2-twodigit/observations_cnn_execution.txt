@@ -116,3 +116,15 @@ Valid | loss1: 0.071918  accuracy1: 0.980343 | loss2: 0.061594  accuracy2: 0.980
 100%|██████████| 62/62 [00:00<00:00, 167.70it/s]
 Test loss1: 0.078395  accuracy1: 0.980847  loss2: 0.072873   accuracy2: 0.977067
 
+Training with a ReLU(conv2) + Pool2 layers
+Improvement up to 2% for accuracy for both digits within the test set
+
+Epoch 30:
+
+100%|██████████| 562/562 [00:26<00:00, 21.53it/s]
+Train | loss1: 0.007572  accuracy1: 0.997414 | loss2: 0.012394  accuracy2: 0.995691
+100%|██████████| 62/62 [00:00<00:00, 80.45it/s]
+Valid | loss1: 0.060889  accuracy1: 0.986139 | loss2: 0.047627  accuracy2: 0.984375
+100%|██████████| 62/62 [00:00<00:00, 133.83it/s]
+Test loss1: 0.073678  accuracy1: 0.984627  loss2: 0.064866   accuracy2: 0.982359
+

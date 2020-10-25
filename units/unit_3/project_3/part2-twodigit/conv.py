@@ -13,6 +13,8 @@ nb_epoch = 30
 num_classes = 10
 img_rows, img_cols = 42, 28 # input image dimensions
 
+# output size equation for convolution & pooling layers, to keep dimension use n_out = fun(n_in, 3, 1, 1, 1)
+n_out_eq = lambda n_in, k, p, s, d: (n_in + 2 * p - d * (k - 1) - 1) / s + 1
 
 
 class CNN(nn.Module):
@@ -23,11 +25,12 @@ class CNN(nn.Module):
         n_c1 = 32 # conv kernels number
         n_c2 = 64 # conv kernels number
         n_p1 = 2 # pool number
-        n_ucp1 = input_dimension * n_c1 / (2*n_p1)
-        n_fc1 = input_dimension * n_c2 / (2*n_p1)
+        n_p2 = 3 # pool number
+        n_fc1 = input_dimension * n_c2 / (2 * n_p1) # pool2 keep's dimension
         self.conv1 = nn.Conv2d(1, n_c1, (3, 3), padding=1) # convolutional layer, keep dimension
         self.pool1 = nn.MaxPool2d((n_p1, n_p1)) # pool layer, reduce dimension in n_p1 factor
         self.conv2 = nn.Conv2d(n_c1, n_c2, (3, 3), padding=1) # convolution layer, keep dimension
+        self.pool2 = nn.MaxPool2d(n_p2, 1, 1, 1) # poll layer, keep dimensions
         self.drop = nn.Dropout() # dropout layer
         self.flatten = Flatten() # flatten function
         self.fc = nn.Linear(int(n_fc1), 64) # fully connected layer
@@ -37,7 +40,8 @@ class CNN(nn.Module):
         xc = F.relu(self.conv1(x)) # activation function ReLU after convolution
         xp = self.pool1(xc)
         xc2 = F.relu(self.conv2(xp))
-        xd = self.drop(xc2)
+        xp2 = self.pool2(xc2)
+        xd = self.drop(xp2)
         xf = self.flatten(xd) # xf = F.relu(self.flatten(xd)) # not a big change
         xl = self.fc(xf) # xl = F.relu(self.fc(xf)) # not a big change
         xo = self.out(xl)
