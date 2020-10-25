@@ -103,3 +103,16 @@ Valid | loss1: 0.084752  accuracy1: 0.979083 | loss2: 0.086682  accuracy2: 0.976
 100%|██████████| 62/62 [00:00<00:00, 139.74it/s]
 Test loss1: 0.131573  accuracy1: 0.970514  loss2: 0.120635   accuracy2: 0.965474
 
+
+Training with a new convolution layer + ReLU after pool layer
+Imrpovement of 1% to 2% of the accuracy for the test set. could be better...
+
+Epoch 30:
+
+100%|██████████| 562/562 [00:13<00:00, 41.23it/s]
+  0%|          | 0/62 [00:00<?, ?it/s]Train | loss1: 0.011189  accuracy1: 0.996024 | loss2: 0.023958  accuracy2: 0.991520
+100%|██████████| 62/62 [00:00<00:00, 123.71it/s]
+Valid | loss1: 0.071918  accuracy1: 0.980343 | loss2: 0.061594  accuracy2: 0.980091
+100%|██████████| 62/62 [00:00<00:00, 167.70it/s]
+Test loss1: 0.078395  accuracy1: 0.980847  loss2: 0.072873   accuracy2: 0.977067
+

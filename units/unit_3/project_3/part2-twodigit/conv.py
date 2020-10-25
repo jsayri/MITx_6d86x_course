@@ -21,10 +21,13 @@ class CNN(nn.Module):
         super(CNN, self).__init__()
         # set convolution layers parameters
         n_c1 = 32 # conv kernels number
+        n_c2 = 64 # conv kernels number
         n_p1 = 2 # pool number
-        n_fc1 = input_dimension * n_c1 / (2*n_p1)
+        n_ucp1 = input_dimension * n_c1 / (2*n_p1)
+        n_fc1 = input_dimension * n_c2 / (2*n_p1)
         self.conv1 = nn.Conv2d(1, n_c1, (3, 3), padding=1) # convolutional layer, keep dimension
         self.pool1 = nn.MaxPool2d((n_p1, n_p1)) # pool layer, reduce dimension in n_p1 factor
+        self.conv2 = nn.Conv2d(n_c1, n_c2, (3, 3), padding=1) # convolution layer, keep dimension
         self.drop = nn.Dropout() # dropout layer
         self.flatten = Flatten() # flatten function
         self.fc = nn.Linear(int(n_fc1), 64) # fully connected layer
@@ -33,7 +36,8 @@ class CNN(nn.Module):
     def forward(self, x):
         xc = F.relu(self.conv1(x)) # activation function ReLU after convolution
         xp = self.pool1(xc)
-        xd = self.drop(xp)
+        xc2 = F.relu(self.conv2(xp))
+        xd = self.drop(xc2)
         xf = self.flatten(xd) # xf = F.relu(self.flatten(xd)) # not a big change
         xl = self.fc(xf) # xl = F.relu(self.fc(xf)) # not a big change
         xo = self.out(xl)
