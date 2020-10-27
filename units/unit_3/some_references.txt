@@ -1,3 +1,5 @@
 CS231n Convolutional Neural Networks for Visual Recognition
 https://cs231n.github.io/convolutional-networks/
 
+Backpropagation solution for homework 3
+http://neuralnetworksanddeeplearning.com/chap2.html#warm_up_a_fast_matrix-based_approach_to_computing_the_output_from_a_neural_network
