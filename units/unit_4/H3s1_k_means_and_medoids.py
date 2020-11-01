@@ -10,16 +10,16 @@ def k_medoids(x, k, zk=None, d_type='l1'):
     Inputs
     x :     numpy array with rows per sample
     k :     number of clusters
-    zk:     numpy array with centers, one per row, default None *
-    d_type  select the distance evaluation function, default 'l1' **
+    zk:     numpy array with centers, one per row, default None (1)
+    d_type  select the distance evaluation function, default 'l1' (2)
 
     Outputs
     clstrs  numpy array with a list of cluster assignation for x
     zk_new  np array with centroids selected by the algorithm
 
     Notes:
-        * when zk=None the algorithm will randomly select zk array
-        ** possibles option for d_type: 'l1', 'l2'
+        (1) when zk=None the algorithm will randomly select zk array
+        (2) possibles option for d_type: 'l1', 'l2'
     '''
     # function set-up variables
     max_iter = 10 # maximum number of iteration allowed
@@ -41,7 +41,8 @@ def k_medoids(x, k, zk=None, d_type='l1'):
     # initialization of cluster centers
     if zk is None:
         # randomly select from the input dataset
-        raise NotImplementedError
+        rand_id = np.random.randint(0, k, k)
+        zk = x[rand_id, :]
 
     # iterate until no change in cost
     while cost_error > min_cost_error and iter_count < max_iter:
@@ -66,10 +67,67 @@ def k_medoids(x, k, zk=None, d_type='l1'):
     return clstrs, zk
 
 # k-means algorith
-def k_means(x, z_init, k):
+def k_means(x, k, zk=None, d_type='l1'):
     '''
     K-means algorithm
+    Inputs
+    x :     numpy array with rows per sample
+    k :     number of clusters
+    zk:     numpy array with centers, one per row, default None (1)
+    d_type  distance evaluation function, default 'l1' (2)
+
+    Outputs
+    clstrs  numpy array with a list of cluster assignation for x
+    zk_new  np array with centroids selected by the algorithm
+
+    Notes:
+        (1) when zk=None the algorithm will randomly select zk array
+        (2) possibles option for d_type: 'l1', 'l2'
     '''
+    # function set-up variables
+    max_iter = 10  # maximum number of iteration allowed
+    iter_count = 0  # iteration counter
+    min_cost_error = 10 ** -6  # convergence rate constant
+    cost_old = 100  # previous iteration cost value
+    cost_val = 0  # current iteration cost value
+    cost_error = 100  # cost error for iteration
+    clstrs = np.zeros(x.shape[0])  # cluster vector
+
+    # set distance function
+    if d_type is 'l1':
+        dist_fun = lambda x, z: np.linalg.norm(x - z, ord=1, axis=1)
+    elif d_type is 'l2':
+        dist_fun = lambda x, z: np.linalg.norm(x - z, ord=2, axis=1)
+    else:
+        raise ValueError('d_type, wrong or missing value')
+
+    # initialization of cluster centers
+    if zk is None:
+        zk = np.random.random((k, 2))*10 - 5 # random numbers from -5 to 5
+
+    # iterate until no change in cost
+    while cost_error > min_cost_error and iter_count < max_iter:
+        # assign clusters, Cj = {i | s.t. z(j) closest to x(i)}
+        for ii, xi in enumerate(x):
+            dist_xi_to_z = dist_fun(xi, zk)
+            clstrs[ii] = np.argmin(dist_xi_to_z)  # assign xi to cluster cj
+            cost_val += np.min(dist_xi_to_z)  # calculate cost
+
+        # update centroids, z(j) exist {x(i), ..., x(n)} s.t. sum(dist(x(i), z(j)) for i in Cj is minimal
+        for jj in range(0, k):
+            xcj = x[clstrs == jj, :]  # get x  that belongs to cluster j
+            zk[jj] = np.sum(xcj,axis=0) / xcj.shape[0] # new zj at the average of points inside cluster j
+
+        # prepare for next iteration
+        cost_error = abs(cost_old - cost_val)
+        cost_old = cost_val
+        cost_val = 0.0
+        iter_count += 1
+
+    return clstrs, zk
+
+
+
 
 def print_clusters(x_array, clusters_array, clusters_centers):
     for ii, c_center in enumerate(clusters_centers):
@@ -85,14 +143,21 @@ if __name__ == "__main__":
     X = np.array([[0, -6], [4, 4], [0, 0], [-5, 2]])
     k = 2  # two clusters
     # center initialization
-    ck = np.array([[-5, 2], [0, -6]])
+    ck = np.array([[-5., 2.], [0., -6.]])
 
     # Clustering 1: Execute k-medoids with l1 norm and defined centers.
+    print('Clustering 1: k-medoids with l1 norm')
     clusters_c1, zk_c1 = k_medoids(X, 2, ck)
     print_clusters(X, clusters_c1, zk_c1)
 
     # Clustering 2: Execute k-medoids with l2 norm and defined centers.
+    ck = np.array([[-5., 2.], [0., -6.]])
+    print('Clustering 1: k-medoids with l2 norm')
     clusters_c2, zk_c2 = k_medoids(X, 2, ck, d_type='l2')
     print_clusters(X, clusters_c2, zk_c2)
 
     # Clustering 3: Execute k-means with l1 norm.
+    ck = np.array([[-5., 2.], [0., -6.]])
+    print('Clustering 1: k-means with l1 norm')
+    clusters_c3, zk_c3 = k_means(X, 2, ck)
+    print_clusters(X, clusters_c3, zk_c3)
