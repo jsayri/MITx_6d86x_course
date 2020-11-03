@@ -68,7 +68,7 @@ def run_section_3(X: np.ndarray):
     common.plot(X, gmm_final, post_end, title_plot)
 
     # display cost function
-    #common.cost_plot(ll_vec)
+    common.cost_plot(ll_vec)
 
 
 

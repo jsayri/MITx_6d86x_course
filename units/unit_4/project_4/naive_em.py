@@ -86,7 +86,7 @@ def run(X: np.ndarray, mixture: GaussianMixture,
     min_th = 10**-6
     ll, ll_old = 1, -np.inf
     ll_error = 1
-    #ll_vec = []
+    ll_vec = []
 
     while ll_error > min_th * abs(ll):
 
@@ -99,6 +99,6 @@ def run(X: np.ndarray, mixture: GaussianMixture,
         # next iteration update
         ll_error = ll - ll_old
         ll_old = ll
-        #ll_vec.append(ll)
+        ll_vec.append(ll)
 
-    return mixture, post, ll#, ll_vec
+    return mixture, post, ll, ll_vec
