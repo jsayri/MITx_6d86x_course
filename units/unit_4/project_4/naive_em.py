@@ -17,7 +17,24 @@ def estep(X: np.ndarray, mixture: GaussianMixture) -> Tuple[np.ndarray, float]:
             for all components for all examples
         float: log-likelihood of the assignment
     """
-    raise NotImplementedError
+    # prob to belong to a mixture: p(i|j) = pj / (2 * pi * var)^(d/2) * exp(-1/(2 * var) * ||x-u||^2)
+    gm_prob = lambda x, p, mu, var, d: np.multiply(np.divide(p, (2*np.pi*var)**(d/2)),
+                                                   np.exp(np.divide(((xi-mu)**2).sum(axis=1), -2*var)))
+
+    # variable initialization
+    n, d = X.shape
+    k, _ = mixture.mu.shape
+    post = np.zeros((n, k)) # soft assignation (posterior prob : p(j|i))
+    log_lh = 0 # init log-likelihood
+
+    for ii, xi in enumerate(X):
+        prior_xi = gm_prob(xi, mixture.p, mixture.mu, mixture.var, d)
+        post[ii, :] = prior_xi / np.sum(prior_xi)
+
+        # log-likelihood as the sum at each i and j
+        log_lh += post[ii, :] @ np.log(prior_xi / post[ii, :])
+
+    return post, log_lh
 
 
 def mstep(X: np.ndarray, post: np.ndarray) -> GaussianMixture:
