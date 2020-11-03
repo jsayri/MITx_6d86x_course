@@ -55,6 +55,11 @@ def run_section_3(X: np.ndarray):
     print('Log-likelihood for E-step: {}'.format(log_lh.round(8)))
     # with K=3 and a seed of 0, on the toy dataset, log likelihood of -1388.0818
 
+    # check m-step execution
+    g_mix_new = naive_em.mstep(X, post)
+    print('Updated gaussian mixture\n', g_mix_new)
+
+
 
 
 if __name__ == "__main__":

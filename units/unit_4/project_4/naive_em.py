@@ -49,7 +49,20 @@ def mstep(X: np.ndarray, post: np.ndarray) -> GaussianMixture:
     Returns:
         GaussianMixture: the new gaussian mixture
     """
-    raise NotImplementedError
+    # variable initialization
+    n, d = X.shape
+    _, k = post.shape
+
+    mu_new = np.zeros((k, d))
+    var_new = np.zeros(k)
+
+    # get new parameters
+    p_new = np.sum(post, axis=0) / n
+    for jj in range(k):
+        mu_new[jj] = post[:, jj] @ X / post[:, jj].sum()
+        var_new[jj] = post[:, jj] @ ((X-mu_new[jj])**2).sum(axis=1) / (d * post[:, jj].sum())
+
+    return GaussianMixture(mu_new, var_new, p_new)
 
 
 def run(X: np.ndarray, mixture: GaussianMixture,
