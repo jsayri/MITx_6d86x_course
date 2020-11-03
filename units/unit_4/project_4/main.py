@@ -52,13 +52,23 @@ def run_section_3(X: np.ndarray):
 
     # check e-step execution
     post, log_lh = naive_em.estep(X, g_mix)
-    print('Log-likelihood for E-step: {}'.format(log_lh.round(8)))
+    # print('Log-likelihood for E-step: {}'.format(log_lh.round(8)))
     # with K=3 and a seed of 0, on the toy dataset, log likelihood of -1388.0818
 
     # check m-step execution
     g_mix_new = naive_em.mstep(X, post)
-    print('Updated gaussian mixture\n', g_mix_new)
+    # print('Updated gaussian mixture\n', g_mix_new)
 
+    # execution of full naive em algorithm
+    gmm_init, post_init = common.init(X, 3, 0)  # gaussian initialization
+    gmm_final, post_end, log_lh, ll_vec = naive_em.run(X, gmm_init, post_init)
+
+    # display clusters
+    title_plot = 'GMM, naive approach, X: toydata, k=3'
+    common.plot(X, gmm_final, post_end, title_plot)
+
+    # display cost function
+    #common.cost_plot(ll_vec)
 
 
 

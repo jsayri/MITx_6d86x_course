@@ -82,6 +82,15 @@ def plot(X: np.ndarray, mixture: GaussianMixture, post: np.ndarray,
     plt.show()
 
 
+def cost_plot(cost_array):
+    """Plots the mixture model cost over iterations for 2D data"""
+    fig, ax = plt.subplots()
+    ax.title.set_text('EM cost for log-likelihood probability')
+    plt.plot(range(0, len(cost_array)), cost_array)
+    ax.set_xlabel('Iterations')
+    ax.set_ylabel('Log-Likelihood Cost')
+
+
 def rmse(X, Y):
     return np.sqrt(np.mean((X - Y)**2))
 
