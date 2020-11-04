@@ -118,7 +118,8 @@ def run_section_4_plots(X, optimal_seeds_kmeans, optimal_seeds_em):
     # init test values
     Ks = np.array([1, 2, 3, 4])
 
-    for k, seed_km, seed_em in zip(Ks, optimal_seeds_kmeans, optimal_seeds_em):
+    # iteration as a function of cluster numbers
+    for jj, (k, seed_km, seed_em) in enumerate(zip(Ks, optimal_seeds_kmeans, optimal_seeds_em)):
 
         # k-means algorithm
         g_mix, post = common.init(X, k, round(seed_km))
@@ -135,20 +136,48 @@ def run_section_4_plots(X, optimal_seeds_kmeans, optimal_seeds_em):
         common.plot(X, mixture, post, title_case, fname)
 
 
+def run_section_5(X: np.ndarray, best_seeds=None):
+    # Section 4. K-means
+    print('Section 5, Bayesian Information Criterion')
+
+    # init test values
+    Ks = np.array([1, 2, 3, 4])
+    if best_seeds is None:
+        best_seeds = np.zeros(len(Ks))
+
+    # execute EM for multiples cluster number
+    bic_m = np.zeros(len(Ks))
+
+    for jj, k in enumerate(Ks):
+
+        # EM algorithm
+        g_mix, post = common.init(X, k, int(best_seeds[jj]))
+        mixture, post, cost, _ = naive_em.run(X, g_mix, post)
+
+        # Bayesian Information Criterion
+        bic_m[jj] = common.bic(X, mixture, cost)
+        print('bic(k={}: {}'.format(k, bic_m[jj]))
+
+    print('best cluster is k={}, with bic={}'.format(Ks[np.argmax(bic_m)], np.max(bic_m).round(5)))
+
+
 if __name__ == "__main__":
 
     # load toy data set
     X = np.loadtxt("toy_data.txt")
 
     # Run section 2 execution, k-means algorithm for toy data set
-    oseed_s2 = run_section_2(X)
-    oseed_s2 = np.zeros(4)
+    # oseed_s2 = run_section_2(X)
+    # oseed_s2 = np.zeros(4)
     # Run section 3 execution, EM algorithm for matrix completion
     # run_section_3(X)
 
     # Run section 4, execution, EM and k-means comparison
     oseed_s4 = run_section_4(X)
-    oseed_s4 = np.zeros(4)
+    # oseed_s4 = np.zeros(4)
 
     # Run section 4, part 2, comparison between methods, plot graphs
-    run_section_4_plots(X, oseed_s2, oseed_s4)
+    # run_section_4_plots(X, oseed_s2, oseed_s4)
+
+    # Run section 5, calculate BIC and get best k
+    run_section_5(X, oseed_s4)
