@@ -167,7 +167,7 @@ if __name__ == "__main__":
     X = np.loadtxt("toy_data.txt")
 
     # Run section 2 execution, k-means algorithm for toy data set
-    # oseed_s2 = run_section_2(X)
+    oseed_s2 = run_section_2(X)
     # oseed_s2 = np.zeros(4)
     # Run section 3 execution, EM algorithm for matrix completion
     # run_section_3(X)
@@ -177,7 +177,7 @@ if __name__ == "__main__":
     # oseed_s4 = np.zeros(4)
 
     # Run section 4, part 2, comparison between methods, plot graphs
-    # run_section_4_plots(X, oseed_s2, oseed_s4)
+    run_section_4_plots(X, oseed_s2, oseed_s4)
 
     # Run section 5, calculate BIC and get best k
-    run_section_5(X, oseed_s4)
+    # run_section_5(X, oseed_s4)
