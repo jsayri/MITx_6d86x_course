@@ -1,0 +1,26 @@
+(x_0*gamma_k0 + x_1*gamma_k1 + x_2*gamma_k2 + x_3*gamma_k3 + x_4*gamma_k4)
+(gamma_k0 + gamma_k1 + gamma_k2 + gamma_k3 + gamma_k4)
+
+
+- optimal mu in term of x and gamma
+(gamma_k0*x_0 + gamma_k1*x_1 + gamma_k2*x_2 + gamma_k3*x_3 + gamma_k4*x_4) / (gamma_k0 + gamma_k1 + gamma_k2 + gamma_k3 + gamma_k4)
+
+
+- optimal sigma square in terms of x and gamma
+(gamma_k0*(x_0-hatmu_k)^2 + gamma_k1*(x_1-hatmu_k)^2 + gamma_k2*(x_2-hatmu_k)^2 + gamma_k3*(x_3-hatmu_k)^2 + gamma_k4*(x_4-hatmu_k)^2) / (gamma_k0 + gamma_k1 + gamma_k2 + gamma_k3 + gamma_k4)
+
+- optimal pi (weight) in terms of gamma
+(gamma_k0 + gamma_k1 + gamma_k2 + gamma_k3 + gamma_k4) / 5
+
+
+ANSWER INTERMS OF X1 and X2
+
+- optimal mu in term of x and gamma
+(gamma_k1*x_1 + gamma_k2*x_2) / (gamma_k1 + gamma_k2)
+
+
+- optimal sigma square in terms of x and gamma
+(gamma_k1*(x_1-hatmu_k)^2 + gamma_k2*(x_2-hatmu_k)^2) / (gamma_k1 + gamma_k2)
+
+- optimal pi (weight) in terms of gamma
+(gamma_k1 + gamma_k2) / 2

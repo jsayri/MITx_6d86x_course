@@ -10,7 +10,7 @@ h_old = 0
 h = []
 
 # aproximations
-sig_aprox = lambda x: 1 if x>=1 else 0 if x<=-1 else x
+sig_aprox = lambda x: 1 if x>=1 else 0 if x<=-1 else x #1/(1+np.exp(-x))
 tanh_aprox = lambda x: 1 if x>=1 else -1 if x<=-1 else x
 # sigmoid argument equation
 arg_eq = lambda Wh, Wx, b, h_old, x: Wh*h_old + Wx*x + b

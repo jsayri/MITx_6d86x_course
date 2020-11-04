@@ -46,7 +46,7 @@ def init(X: np.ndarray, K: int,
 
 
 def plot(X: np.ndarray, mixture: GaussianMixture, post: np.ndarray,
-         title: str):
+         title: str, fname=None):
     """Plots the mixture model for 2D data"""
     _, K = post.shape
 
@@ -79,7 +79,9 @@ def plot(X: np.ndarray, mixture: GaussianMixture, post: np.ndarray,
             mu[0], mu[1], sigma)
         ax.text(mu[0], mu[1], legend)
     plt.axis('equal')
-    plt.show()
+    if fname != None: plt.savefig(fname)
+    else: plt.show()
+    #plt.show()
 
 
 def cost_plot(cost_array):
