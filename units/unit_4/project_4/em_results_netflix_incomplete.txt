@@ -1,0 +1,17 @@
+Execution of EM algorithm for netflix incomplete data
+clusters were k=1 & 12, seeds for 0:4, solutions for each case, below
+k=1, seed=0, cost=-1521060.95399
+k=1, seed=1, cost=-1521060.95399
+k=1, seed=2, cost=-1521060.95399
+k=1, seed=3, cost=-1521060.95399
+k=1, seed=4, cost=-1521060.95399
+k=12, seed=0, cost=-1399803.04666
+k=12, seed=1, cost=-1390234.42235
+k=12, seed=2, cost=-1416862.40115
+k=12, seed=3, cost=-1393521.39299
+k=12, seed=4, cost=-1416733.80838
+Optimal cost at each cluster for multiples seeds.
+k=1, max_cost=-1521060.953985, seed=0.0
+k=12, max_cost=-1390234.422347, seed=1.0
+
+optimal results accepted by the grader (same results)
