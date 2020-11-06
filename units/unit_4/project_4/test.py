@@ -77,10 +77,27 @@ if __name__ == "__main__":
 
     # test algorithm with Netflix incomplete data
     X_netflix = np.loadtxt("netflix_incomplete.txt")
+    X_netflix_gold = np.loadtxt("netflix_complete.txt")
 
     # scenarios' definition
     Ks = np.array([1, 12]) # clusters
     Seeds = np.array([0, 1, 2, 3, 4]) # random seeds
     # em algorithm execution
     opseeds = em_for_k_and_seeds(X_netflix, Ks, Seeds)
+
+
+    # toy test, fill missing data matrix
+    gmm_init, post = common.init(X, K, seed)  # gaussian initialization
+    gmm_end, post, cost, _ = em.run(X, gmm_init, post)
+    X_pred = em.fill_matrix(X, gmm_end)
+    rmse_x = common.rmse(X_gold, X_pred)
+    print('RMSE for toy data: {}'.format(rmse_x))
+
+
+    # Netflix data, fill missing data matrix
+    mixture, post = common.init(X_netflix, 12, 1)  # gaussian initialization
+    mixture, post, cost, _ = em.run(X_netflix, mixture, post)
+    X_pred = em.fill_matrix(X_netflix, mixture)
+    rmse_netflix = common.rmse(X_netflix_gold, X_pred)
+    print('RMSE for netlflix data: {}'.format(rmse_netflix))
 

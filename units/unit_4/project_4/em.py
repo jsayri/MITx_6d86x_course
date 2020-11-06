@@ -143,4 +143,25 @@ def fill_matrix(X: np.ndarray, mixture: GaussianMixture) -> np.ndarray:
     Returns
         np.ndarray: a (n, d) array with completed data
     """
-    raise NotImplementedError
+    # variable initialization
+    p, mu, var = mixture.p, mixture.mu, mixture.var
+    dcu = X > 0
+    dhu = ~dcu
+    X_pred = X.copy()
+
+    # gaussian model: exp(-1/(2 * var) * ||x-u||^2) / (2 * pi * var)^(d/2)
+    logN = lambda xi, mu, var, d: -d / 2 * np.log((2 * np.pi * var)) + np.divide(((xi - mu) ** 2).sum(axis=1), -2 * var)
+    fui_fun = lambda xi, p, mu, var, d: np.log(p + 1e-16) + logN(xi, mu, var, d)
+
+    for ii, xi in enumerate(X):
+        # define non missing values
+        xcu = xi[dcu[ii, :]]  # build non zero vector from xi
+
+        # calculate posterior prob for each cluster
+        f_ui = fui_fun(xcu, p, mu[:, dcu[ii, :]], var, xcu.size)
+        post = np.exp(f_ui - logsumexp(f_ui))
+
+        # estimate missing values 'xhu' with mu and posterior probability
+        X_pred[ii, dhu[ii, :]] = post @ mu[:, dhu[ii, :]]
+
+    return X_pred
