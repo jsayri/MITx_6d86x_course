@@ -10,6 +10,8 @@ a = ['ml', 'mr', 's'] # ml,mr: move left/right, s: stay
 # Transition matrix
 T = np.zeros((len(s), len(a), len(s))) # states, actions, future states prob
 
+# IMPORTANT!!!
+# Reward Note: The reward function is defined to be R(s,a,s′)=R(s), R(s=5)=1 and R(s)=0 otherwise
 
 # If the agent chooses to move (either left or right) at any of the inner grid locations, such an action
 # is successful with probability 1/3 and with probability 2/3 it fails to move
@@ -37,7 +39,7 @@ T[4, 1, 3] = .5
 g = .5
 
 # Value iteration algorithm
-n_iter = 11
+n_iter = 101
 
 V_init = np.zeros(len(s))
 
@@ -80,21 +82,21 @@ for k in range(1, n_iter):
 
     # at s=3
     # stay: T(3,s,3)*(R(3,s,3) + g*Vopt(3)) + T(3,s,2)*(R(3,s,2) + g*Vopt(2)) + T(3,s,4)*(R(3,s,4) + g*Vopt(4))
-    V_s = .5 * (0 + g * Vj[3]) + .25 * (0 + g * Vj[2]) + .25 * (1 + g * Vj[4])
+    V_s = .5 * (0 + g * Vj[3]) + .25 * (0 + g * Vj[2]) + .25 * (0 + g * Vj[4])
     # left: T(3,l,3)*(R(3,l,3) + g*Vopt(3)) + T(3,l,2)*(R(3,l,2) + g*Vopt(2))
     V_l = 2 / 3 * (0 + g * Vj[3]) + 1 / 3 * (0 + g * Vj[2])
     # right: T(3,r,3)*(R(3,r,3) + g*Vopt(3)) + T(3,r,4)*(R(3,r,4) + g*Vopt(4))
-    V_r = 2 / 3 * (0 + g * Vj[3]) + 1 / 3 * (1 + g * Vj[4])
+    V_r = 2 / 3 * (0 + g * Vj[3]) + 1 / 3 * (0 + g * Vj[4])
 
     V[k, 3] = np.max([V_s, V_l, V_r])
 
     # at s=4
     # stay: T(4,s,4)*(R(4,s,4) + g*Vopt(4)) + T(4,s,3)*(R(4,s,3) + g*Vopt(3))
-    V_s = .5 * (1 + g * Vj[4]) + .5 * (0 + g * Vj[3])
+    V_s = .5 * (1 + g * Vj[4]) + .5 * (1 + g * Vj[3])
     # left: T(4,l,4)*(R(4,l,4) + g*Vopt(4)) + T(4,l,3)*(R(4,l,3) + g*Vopt(3))
-    V_l = 2 / 3 * (1 + g * Vj[4]) + 1 / 3 * (0 + g * Vj[3])
+    V_l = 2 / 3 * (1 + g * Vj[4]) + 1 / 3 * (1 + g * Vj[3])
     # right: T(4,r,4)*(R(4,r,4) + g*Vopt(4)) + T(4,r,3)*(R(4,r,3) + g*Vopt(3))
-    V_r = .5 * (1 + g * Vj[4]) + .5 * (0 + g * Vj[3])
+    V_r = .5 * (1 + g * Vj[4]) + .5 * (1 + g * Vj[3])
 
     V[k, 4] = np.max([V_s, V_l, V_r])
 
