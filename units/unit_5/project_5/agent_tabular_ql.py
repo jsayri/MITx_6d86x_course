@@ -35,7 +35,7 @@ def epsilon_greedy(state_1, state_2, q_func, epsilon):
         (int, int): the indices describing the action/object to take
     """
     q_state = q_func[state_1, state_2, :, :]
-    if np.round(epsilon) > .5: # Exploration strategy
+    if np.random.random() > (1 - epsilon): # Exploration strategy
         a_sz, o_sz = q_state.shape
         action_index, object_index = np.random.randint(0, a_sz), np.random.randint(0, o_sz)
 
@@ -68,7 +68,8 @@ def tabular_q_learning(q_func, current_state_1, current_state_2, action_index,
     """
     # check if episode is over
     if terminal:
-        term_reward = 1
+        # after quest is finish, get reward and stop updating Q values
+        term_reward = reward + 0
     else:
         term_reward = reward + GAMMA * np.max(q_func[next_state_1, next_state_2, :, :])
 
@@ -98,28 +99,30 @@ def run_episode(for_training):
     """
     epsilon = TRAINING_EP if for_training else TESTING_EP
 
-    epi_reward = None
+    epi_reward = 0.0
     # initialize for each episode
-    # TODO Your code here
-
+    number_of_steps = 0
     (current_room_desc, current_quest_desc, terminal) = framework.newGame()
 
     while not terminal:
         # Choose next action and execute
-        # TODO Your code here
+        state_1, state_2 = dict_room_desc[current_room_desc], dict_quest_desc[current_quest_desc]
+        action_index, object_index = epsilon_greedy(state_1, state_2, q_func, epsilon)
+        next_room_desc, next_quest_desc, reward, terminal = framework.step_game(current_room_desc, current_quest_desc,
+                                                                        action_index, object_index)
 
         if for_training:
             # update Q-function.
-            # TODO Your code here
-            pass
-
+            next_state_1, next_state_2 = dict_room_desc[next_room_desc], dict_quest_desc[next_quest_desc]
+            tabular_q_learning(q_func, state_1, state_2, action_index, object_index, reward, next_state_1, next_state_2,
+                               terminal)
         if not for_training:
             # update reward
-            # TODO Your code here
-            pass
+            epi_reward += GAMMA**number_of_steps * reward
 
         # prepare next step
-        # TODO Your code here
+        number_of_steps += 1
+        current_room_desc, current_quest_desc = next_room_desc, next_quest_desc
 
     if not for_training:
         return epi_reward

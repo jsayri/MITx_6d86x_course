@@ -230,29 +230,29 @@ def make_all_states_index():
 # step = 0
 # max_steps = 300
 # game_count = 0
-
+#
 # (current_room_desc, current_quest_desc, terminal) = newGame()
-
-
+#
+#
 # while step<max_steps:
 #     step = step +1
-
+#
 #     # pure random policy
 #     action_index = np.random.randint(NUM_ACTIONS)
 #     object_index = np.random.randint(NUM_OBJECTS)
-
+#
 #     if DEBUG:
 #         print('Step %d: %s %s with Command: %s %s' % (step, current_room_desc, current_quest_desc, actions[action_index], objects[object_index],))
-
+#
 #     (next_room_desc, next_quest_desc, reward, terminal) = step_game(current_room_desc, current_quest_desc, action_index, object_index)
 #     reward_cnt = reward_cnt + reward
-
+#
 #     if terminal:
 #         (current_room_desc, current_quest_desc, terminal) = newGame()
 #         game_count = game_count + 1
 #     else:
 #         current_room_desc = next_room_desc
 #         current_quest_desc = next_quest_desc
-
-
+#
+#
 # print('Finish %d games. Total reward %6.3f.' % (game_count, reward_cnt,))

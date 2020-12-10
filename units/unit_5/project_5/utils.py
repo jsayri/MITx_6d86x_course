@@ -23,7 +23,7 @@ def load_data(path_data):
     reader = csv.reader(f_data, delimiter='\t')
 
     for row in reader:
-    	data.append(row)
+        data.append(row)
 
     f_data.close()
 
