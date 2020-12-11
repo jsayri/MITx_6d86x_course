@@ -182,6 +182,6 @@ if __name__ == '__main__':
                          axis=0))  # plot reward per epoch averaged per run
     axis.set_xlabel('Epochs')
     axis.set_ylabel('reward')
-    axis.set_title(('Tablular: nRuns=%d, Epilon=%.2f, Epi=%d, alpha=%.4f' %
+    axis.set_title(('Tablular: nRuns=%d, Epsilon=%.2f, Epi=%d, alpha=%.4f' %
                     (NUM_RUNS, TRAINING_EP, NUM_EPIS_TRAIN, ALPHA)))
     plt.show()
