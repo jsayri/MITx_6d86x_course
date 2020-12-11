@@ -40,8 +40,14 @@ def epsilon_greedy(state_vector, epsilon):
     Returns:
         (int, int): the indices describing the action/object to take
     """
-    # TODO Your code here
-    action_index, object_index = None, None
+    if np.random.random() > (1 - epsilon):
+        # Exploration strategy
+        action_index, object_index = np.random.randint(NUM_ACTIONS), np.random.randint(NUM_OBJECTS)
+    else:
+        # Exploitation strategy
+        q_value_cur_state = model(state_vector)
+        action_index, object_index = q_value_cur_state[0].argmax(), q_value_cur_state[1].argmax()
+
     return (action_index, object_index)
 
 class DQN(nn.Module):
@@ -69,9 +75,9 @@ def deep_q_learning(current_state_vector, action_index, object_index, reward,
         current_state_vector (torch.FloatTensor): vector representation of current state
         action_index (int): index of the current action
         object_index (int): index of the current object
-        reward (float): the immediate reward the agent recieves from playing current command
+        reward (float): the immediate reward the agent receives from playing current command
         next_state_vector (torch.FloatTensor): vector representation of next state
-        terminal (bool): True if this epsiode is over
+        terminal (bool): True if this episode is over
 
     Returns:
         None
@@ -83,9 +89,9 @@ def deep_q_learning(current_state_vector, action_index, object_index, reward,
 
     q_value_cur_state = model(current_state_vector)
 
-    # TODO Your code here
-
-    loss = None
+    y = reward + int(not terminal) * GAMMA * maxq_next
+    q_current = .5 * (q_value_cur_state[0][action_index] + q_value_cur_state[1][object_index])
+    loss = .5 * (y - q_current)**2
 
     optimizer.zero_grad()
     loss.backward()
@@ -100,32 +106,36 @@ def run_episode(for_training):
         If for testing, computes and return cumulative discounted reward
     """
     epsilon = TRAINING_EP if for_training else TESTING_EP
-    epi_reward = None
 
+    epi_reward = 0.0
     # initialize for each episode
-    # TODO Your code here
-
+    number_of_steps = 0
     (current_room_desc, current_quest_desc, terminal) = framework.newGame()
+
     while not terminal:
         # Choose next action and execute
         current_state = current_room_desc + current_quest_desc
-        current_state_vector = torch.FloatTensor(
-            utils.extract_bow_feature_vector(current_state, dictionary))
-
-        # TODO Your code here
+        current_state_vector = torch.FloatTensor(utils.extract_bow_feature_vector(current_state, dictionary))
+        # get action from epsilon greedy
+        action_index, object_index = epsilon_greedy(current_state_vector, epsilon)
+        # advance one step in the game
+        next_room_desc, next_quest_desc, reward, terminal = framework.step_game(current_room_desc, current_quest_desc,
+                                                                                action_index, object_index)
 
         if for_training:
             # update Q-function.
-            # TODO Your code here
-            pass
+            next_state = next_room_desc + next_quest_desc
+            next_state_vector = torch.FloatTensor(utils.extract_bow_feature_vector(next_state, dictionary))
+            deep_q_learning(current_state_vector, action_index, object_index, reward, next_state_vector,
+                            terminal)
 
         if not for_training:
             # update reward
-            # TODO Your code here
-            pass
+            epi_reward += GAMMA**number_of_steps * reward
 
         # prepare next step
-        # TODO Your code here
+        number_of_steps += 1
+        current_room_desc, current_quest_desc = next_room_desc, next_quest_desc
 
     if not for_training:
         return epi_reward
